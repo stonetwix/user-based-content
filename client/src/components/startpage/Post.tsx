@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 const listData: any[] | undefined = [];
 for (let i = 0; i < 3; i++) {
   listData.push({
+    imageUrl: 'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel2.png?raw=true',
     title: `Post ${i}`,
     description: 'Username123',
     content:
@@ -18,27 +19,26 @@ render() {
     return(
         <Row style={postContainer}>
         <Col span={24} style={columnStyle}>
+          
             <List
                 itemLayout="vertical"
                 size="large"
                 dataSource={listData}
                 renderItem={item => (
+            
                   <List.Item style={postBox}
                   extra={
-                    <img
-                      width={'100%'}
-                      alt="logo"
-                      src="https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel2.png?raw=true"
-                    />
+                    <img style={imageStyle}
+                      src={item.imageUrl} 
+                      alt={item.title}
+                    />   
                   }
-                    key={item.title}
-                    actions={[
-                    ]}
+                  
                   >
                   <List.Item.Meta
                       title={item.title}
                       description={item.description}
-                    />
+                  />
                     {item.content.substring(0, 300) + '...'}
                   </List.Item>
                 )}
@@ -53,21 +53,25 @@ export default StartPagePost;
 
 
 const postContainer: CSSProperties = {
-    display: 'flex',
-    width: '60%',
-    margin: 'auto',
-    paddingBottom: '8rem',
+  display: 'flex',
+  justifyContent: 'space-around',
+  width: '60%',
+  margin: 'auto'
+}
+
+const columnStyle: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  marginTop: '10rem',
+  marginBottom: '5rem',
 }
 
 const postBox: CSSProperties = {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column-reverse',  
 }
 
-const columnStyle: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '3rem',
+const imageStyle: CSSProperties = {
+    width: '100%',
+    margin: '1rem',
 }
