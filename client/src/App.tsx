@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import DetailView from './components/detailview/DetailView';
 import ScrollToTop from './components/ScrollToTop';
+import PostsListUser from './components/userAdminPosts/PostsList';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       <ScrollToTop />
       {/* <Header /> */}
       <Switch>
-        <Route path="/" component={DetailView} />
+        {/* <Route path="/" component={DetailView} /> */}
+        <Route path="/" component={PostsListUser} />
       </Switch>
   </Router>
   );
