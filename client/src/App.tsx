@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
+import StartPageView from './components/startpage/StartPageView';
+import DetailView from './components/detailview/DetailView';
 import Header from './components/Header';
 import LogInView from './components/login/LogInView';
 import RegisterSuccess from "./components/login/RegisterSuccess";
@@ -10,6 +12,10 @@ function App() {
   return (
     
     <Router>
+      {/* <ScrollToTop />
+      <Header /> */}
+  
+      <StartPageView />
   
       <Header /> 
       <Switch>
