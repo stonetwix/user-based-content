@@ -25,3 +25,7 @@ ul .ant-menu-horizontal {
   width: 80%;
 }
 
+.ant-list-vertical .ant-list-item-extra {
+  margin-left: 0;
+  }
+
