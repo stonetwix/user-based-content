@@ -23,9 +23,7 @@ function App() {
         <LogInView /> 
         </Switch>
       <ScrollToTop />
-      <Switch>
-      <RegisterSuccess />
-      </Switch>
+     
       <Switch>
         {/* <Route path="/" component={DetailView} /> */}
         <Route path="/" component={PostsListUser} />
