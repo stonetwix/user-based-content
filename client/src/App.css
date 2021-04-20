@@ -19,3 +19,9 @@ ul .ant-menu-horizontal {
 .ant-menu-horizontal > .ant-menu-item-only-child {
   margin-top: 0rem;
 }
+
+
+.ant-form-horizontal {
+  width: 80%;
+}
+
