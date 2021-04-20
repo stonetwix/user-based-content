@@ -44,25 +44,25 @@ class PostsListUser extends Component {
                     console.log(collapsed, type);
                 }}
                 style={{
-                    height: '100vh',
+                    height: '100vh'
                 }}
                 >
                     <Link to='/'>
                         <img src={'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/logo-white.png?raw=true'} style={logoStyle} alt={'logo'}/>
                     </Link>
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
                         <Menu.Item key="1" icon={<CameraOutlined />}>
-                        Posts
+                            Posts
                         </Menu.Item>
                         <Menu.Item key="2" icon={<UserOutlined />}>
-                        Users
+                            Users
                         </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout style={{ background: '#fff' }}>
                     <Content style={{ margin: '4rem', background: '#fff' }}>
                         <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '5rem' }} onClick={() => console.log('new post clicked')}>Create New Post</Button>
+                            <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}>Create New Post</Button>
                             <List
                                 itemLayout="horizontal"
                                 dataSource={data}
@@ -84,7 +84,7 @@ class PostsListUser extends Component {
                                     </Button>]}
                                 >
                                     <List.Item.Meta
-                                    avatar={<Avatar src={item.imageUrl} />}
+                                    avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
                                     title={item.title}
                                     description={item.text.substring(0, 35) + '...'}
                                     />
@@ -103,7 +103,7 @@ export default PostsListUser;
 
 const logoStyle: CSSProperties = {
     width: '10rem',
-    margin: '1rem'
+    margin: '1rem',
 }
 
 const deleteStyle: CSSProperties = {
@@ -118,7 +118,7 @@ const deleteStyle: CSSProperties = {
 
 const editStyle: CSSProperties = {
     backgroundColor: 'white',
-    color: 'black',
+    color: '#78757C',
     border: 'none',
     cursor: 'pointer',
     marginTop: '1.2rem',
