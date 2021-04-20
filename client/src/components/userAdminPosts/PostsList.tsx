@@ -1,4 +1,5 @@
 import { Component, CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 import { Layout, Menu, Button, List, Avatar } from 'antd';
 import { UserOutlined, CameraOutlined, PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 
@@ -46,7 +47,9 @@ class PostsListUser extends Component {
                     height: '100vh',
                 }}
                 >
-                <img src={'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/logo-white.png?raw=true'} style={logoStyle} alt={'logo'}/>
+                    <Link to='/'>
+                        <img src={'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/logo-white.png?raw=true'} style={logoStyle} alt={'logo'}/>
+                    </Link>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
                         <Menu.Item key="1" icon={<CameraOutlined />}>
                         Posts
