@@ -1,26 +1,37 @@
 import { Result, Button, Row, Col } from 'antd';
-import { CSSProperties } from 'react';
-import { Link } from 'react-router-dom';
+import { Component, CSSProperties } from 'react';
+import { Route } from 'react-router-dom';
 
-function SuccessMessage() {
-    return (
-        <Row style={containerStyle}>
-            <Col span={24} style={colStyle}>
-                <Result
-                    status="success"
-                    title="You successfully registered an account on Traveler"
-                    extra={[
-                    <Link to='/'>
-                        {/*OBS! Lägg in rätt länk */ }
-                        <Button type="primary" key="console">Log in</Button>
-                    </Link>
-                    ]}
-                />
-              
-            </Col>
-        </Row>
-    ) 
-}
+class SuccessMessage extends Component {
+
+    handleLogInClick = (history: any) => {
+        history.push('/login');
+    }
+
+    render() {
+        return (
+            <Row style={containerStyle}>
+                <Col span={24} style={colStyle}>
+                    <Result
+                        status="success"
+                        title="You successfully registered an account on Traveler"
+                        extra={[
+                            <Route render={({ history }) => (
+                                <Button
+                                  type="primary"
+                                  key="console"
+                                  onClick={() => this.handleLogInClick(history)}
+                                >
+                                  Log in
+                                </Button>
+                            )}/>
+                        ]}
+                    />
+                </Col>
+            </Row>
+        ) 
+    }
+};
 
 export default SuccessMessage; 
 

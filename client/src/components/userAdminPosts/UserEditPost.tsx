@@ -2,7 +2,9 @@ import { Form, Input, Button, message, Layout, Menu } from "antd";
 import { Component, CSSProperties } from "react";
 import { Link } from 'react-router-dom';
 import { UserOutlined, CameraOutlined } from '@ant-design/icons';
-//import { RouteComponentProps, withRouter } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { Post, posts } from '../startpage/Post';
+import ErrorPage from '../ErrorPage';
 
 const { Content, Sider } = Layout;
 const layout = {
@@ -27,25 +29,20 @@ const validateMessages = {
   },
 };
 
-// interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ id: string }> {}
 
-// interface State {
-//   products: Product[];
-//   product: Product | undefined;
-//   buttonSaveLoading: boolean;
-//   buttonDeleteLoading: boolean;
-// }
+interface State {
+  post?: Post;
+}
 
 const successSave = () => {
   message.success('The post has been updated', 3);
 };
 
-class EditPost extends Component {
-//   state: State = {
-//     products: JSON.parse(localStorage.getItem('products') as string) || [],
-//     product: undefined,
-//     buttonSaveLoading: false,
-//   };
+class EditPost extends Component<Props, State> {
+  state: State = {
+    post: undefined,
+  };
 
 //   onFinish = async (values: any) => {
 //     this.setState({ buttonSaveLoading: true });
@@ -63,16 +60,16 @@ class EditPost extends Component {
 //     this.setState({ buttonSaveLoading: false });
 //   }
 
-//   componentDidMount() {
-//     const products = JSON.parse(localStorage.getItem('products') as string) || [];
-//     const product = products.find((p: Product) => p.id === Number(this.props.match.params.id));
-//     this.setState({ product: product });
-//   }
+  componentDidMount() {
+    const post = posts.find((p: Post) => p.id === Number(this.props.match.params.id));
+    this.setState({ post: post });
+  }
 
   render() {
-    // if (!post) {
-    //   return <ErrorPage />
-    // }
+    const { post } = this.state;
+    if (!post) {
+      return <ErrorPage />
+    }
 
     return (
       <Layout>
@@ -89,10 +86,7 @@ class EditPost extends Component {
             height: '100vh'
         }}
         >
-          <Link to='/'>
-              <img src={'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/logo-white.png?raw=true'} style={logoStyle} alt={'logo'}/>
-          </Link>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
+          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '8rem'}}>
             <Menu.Item key="1" icon={<CameraOutlined />}>
                 Posts
             </Menu.Item>
@@ -102,7 +96,7 @@ class EditPost extends Component {
           </Menu>
         </Sider>
         <Layout style={{ background: '#fff' }}>
-          <Content style={{ margin: '4rem', background: '#fff' }}>
+          <Content style={{ margin: '8rem', background: '#fff' }}>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
             <Form
               {...layout}
@@ -110,11 +104,11 @@ class EditPost extends Component {
               onFinish={() => console.log('saved')}
               validateMessages={validateMessages}
               initialValues={{
-                // product: {
-                //   title: this.state.product?.title,
-                //   description: this.state.product?.description,
-                //   imageUrl: this.state.product?.imageUrl,
-                // }
+                post: {
+                  title: this.state.post?.title,
+                  text: this.state.post?.text,
+                  imageUrl: this.state.post?.imageUrl,
+                }
               }}
             >
               <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>EDIT POST</h1>
@@ -136,7 +130,6 @@ class EditPost extends Component {
                     type="primary"
                     onClick={() => {console.log('Post updated'); successSave();}} 
                     htmlType="submit" 
-                    //loading={this.state.buttonSaveLoading}
                   >
                     Save
                   </Button>
@@ -151,7 +144,7 @@ class EditPost extends Component {
   }
 }
 
-export default EditPost;
+export default withRouter(EditPost);
 
 const logoStyle: CSSProperties = {
   width: '10rem',

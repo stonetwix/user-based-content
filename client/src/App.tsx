@@ -18,9 +18,9 @@ function App() {
         <Route exact path="/" component={StartPageView} />
         <Route path="/post/:id" component={PostDetail} />
         <Route path="/login" component={LogInView} />
-        <Route path="/user/:id" component={PostsListUser} />
-        <Route path="/user/:id/post/:id" component={EditPost} />
-        <Route path="/registered" component={RegisterSuccess} />
+        <Route path="/user" component={PostsListUser} />
+        <Route path="/edit-post/:id" component={EditPost} />
+        <Route path="/registersuccess" component={RegisterSuccess} />
       </Switch>
   </Router>
   );
