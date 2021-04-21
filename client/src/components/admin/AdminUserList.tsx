@@ -39,7 +39,16 @@ class AdminUserList extends Component {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                        <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new user clicked')}>Add New User</Button>
+                    <Link to ={'/admin/adduser'}> 
+                        <Button 
+                            type="primary" 
+                            icon={<PlusCircleOutlined />} 
+                            style={{ marginBottom: '4rem' }} 
+                            onClick={() => console.log('new user clicked')}
+                        >
+                            Add New User
+                        </Button>
+                    </Link>
                         <List
                             itemLayout="horizontal"
                             dataSource={users}

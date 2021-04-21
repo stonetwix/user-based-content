@@ -10,6 +10,7 @@ import PostDetail from './components/detailview/PostDetail';
 import Header from './components/Header';
 import AdminUserList from "./components/admin/AdminUserList";
 import AdminEditUser from "./components/admin/AdminEditUser";
+import AdminAddNewUser from "./components/admin/AdminAddNewUser";
 
 function App() {
   return (   
@@ -25,6 +26,7 @@ function App() {
         <Route path="/registersuccess" component={RegisterSuccess} />
         <Route path="/admin/users" component={AdminUserList} />
         <Route path="/admin/edit/user/:id" component={AdminEditUser} />
+        <Route path="/admin/adduser" component={AdminAddNewUser} />
       </Switch>
   </Router>
   );
