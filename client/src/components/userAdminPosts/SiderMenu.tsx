@@ -26,7 +26,7 @@ class SiderMenu extends Component {
                         <Link to={'/user'}>Posts</Link>
                     </Menu.Item>
                     <Menu.Item key="2" icon={<UserOutlined />}>
-                        Users
+                        <Link to={'/admin/users'}>Users</Link>
                     </Menu.Item>
                 </Menu>
             </Sider>

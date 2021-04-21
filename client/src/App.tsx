@@ -8,6 +8,8 @@ import PostsListUser from './components/userAdminPosts/PostsList';
 import EditPost from './components/userAdminPosts/UserEditPost';
 import PostDetail from './components/detailview/PostDetail';
 import Header from './components/Header';
+import AdminUserList from "./components/admin/AdminUserList";
+import AdminEditUser from "./components/admin/AdminEditUser";
 
 function App() {
   return (   
@@ -21,6 +23,8 @@ function App() {
         <Route path="/user" component={PostsListUser} />
         <Route path="/edit-post/:id" component={EditPost} />
         <Route path="/registersuccess" component={RegisterSuccess} />
+        <Route path="/admin/users" component={AdminUserList} />
+        <Route path="/admin/edit/user/:id" component={AdminEditUser} />
       </Switch>
   </Router>
   );
