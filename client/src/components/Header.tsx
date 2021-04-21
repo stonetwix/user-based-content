@@ -18,7 +18,7 @@ function Navbar() {
 
           <Col span={10} offset={6}>
           <Menu mode="horizontal" style={menuStyle}>
-            <Menu.Item key="1"><Link to='/login' style={{ color: 'white' }} > Log in</Link>
+            <Menu.Item key="1"><Link to='/login' style={{ color: 'white' }}> Log in</Link>
 
             </Menu.Item>
           </Menu>
@@ -31,7 +31,7 @@ function Navbar() {
 const layoutStyle: CSSProperties = {
     width: '100%', 
     background: '#78757C',
-    height: window.innerWidth > 768 ? '6rem' : '5rem',
+    height: window.innerWidth > 768 ? '5rem' : '4rem',
     display: 'flex', 
     alignItems:'center',
     justifyItems:'center',
@@ -56,7 +56,7 @@ const menuStyle: CSSProperties = {
   alignItems: 'center',
   marginTop: window.innerWidth > 768 ? '1.8rem' : '-0.3rem',
   marginRight: window.innerWidth > 768 ? '0' : '-2rem',
-  fontSize: '1.5rem', 
+  fontSize: '1.3rem', 
   fontWeight: 'bold'
 }
 

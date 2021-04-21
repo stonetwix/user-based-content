@@ -44,7 +44,7 @@ class PostsListUser extends Component {
                     console.log(collapsed, type);
                 }}
                 style={{
-                    height: '100vh'
+                    height: '100vh',
                 }}
                 >
                     <Link to='/'>
