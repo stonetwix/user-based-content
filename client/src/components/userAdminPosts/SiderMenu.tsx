@@ -19,9 +19,10 @@ class SiderMenu extends Component {
                 }}
                 style={{
                     height: '100vh',
+                    background: '#D3D5D4'
                 }}
             >
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '8rem'}}>
+                <Menu mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '8rem', background: '#D3D5D4' }}>
                     <Menu.Item key="1" icon={<CameraOutlined />}>
                         <Link to={'/user'}>Posts</Link>
                     </Menu.Item>

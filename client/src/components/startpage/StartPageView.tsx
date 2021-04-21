@@ -6,7 +6,6 @@ class StartPageView extends Component {
     render() {
         return(
             <div>
-                <Header />
                 <StartPagePost />
             </div>
         )

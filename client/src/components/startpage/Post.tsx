@@ -2,17 +2,6 @@ import { Component, CSSProperties } from 'react';
 import { List, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 
-
-// const listData: any[] | undefined = [];
-// for (let i = 0; i < 3; i++) {
-//   listData.push({
-//     imageUrl: 'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel2.png?raw=true',
-//     title: `Post ${i}`,
-//     description: 'Username123',
-//     content:
-//       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-//   });
-// }
 export interface Post {
   id: number
   title: string
@@ -51,38 +40,37 @@ class StartPagePost extends Component {
 
 render() {
     return(
-        <Row style={postContainer}>
+      <Row style={postContainer}>
         <Col span={24} style={columnStyle}>
-          
-            <List
-                itemLayout="vertical"
-                size="large"
-                dataSource={posts}
-                renderItem={item => (
-                  
-                  <List.Item style={postBox}
-                  extra={
-                    <img style={imageStyle}
-                      src={item.imageUrl} 
-                      alt={item.title}
-                    />   
-                  }
-                  
-                  >
-                  <Link to={'/post/' + item.id}>
-                    <List.Item.Meta
-                        title={item.title}
-                        description={item.text.substring(0, 300) + '...'}
-                    />
-                  </Link>
-                  </List.Item>
-                )}
-                   
-            />
+          <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={posts}
+            renderItem={item => (
+              
+              <List.Item 
+                style={postBox}
+                extra={
+                  <img style={imageStyle}
+                    src={item.imageUrl} 
+                    alt={item.title}
+                  />   
+                }
+              >
+                <Link to={'/post/' + item.id}>
+                  <List.Item.Meta
+                      title={item.title}
+                      description={item.text.substring(0, 300) + '...'}
+                  />
+                </Link>
+              </List.Item>
+            )}
+          />
         </Col>
-    </Row>      
+      </Row>      
     )
-}};
+  }
+};
 
 export default StartPagePost;
 

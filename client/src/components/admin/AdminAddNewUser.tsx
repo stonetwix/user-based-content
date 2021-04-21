@@ -2,7 +2,6 @@ import { Component, CSSProperties } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../userAdminPosts/SiderMenu';
-import userEvent from "@testing-library/user-event";
 
 const { Content } = Layout;
 const layout = {
