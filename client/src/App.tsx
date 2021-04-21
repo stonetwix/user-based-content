@@ -8,12 +8,15 @@ import PostsListUser from './components/userAdminPosts/PostsList';
 import EditPost from './components/userAdminPosts/UserEditPost';
 import PostDetail from './components/detailview/PostDetail';
 import Header from './components/Header';
+import React from "react";
+import UserAddNewPost from "./components/userAdminPosts/UserAddNewPost";
 
 function App() {
   return (   
     <Router>
       <ScrollToTop />
       <Header />
+      <UserAddNewPost />
       <Switch>
         <Route exact path="/" component={StartPageView} />
         <Route path="/post/:id" component={PostDetail} />
