@@ -8,10 +8,12 @@ import PostsListUser from './components/userAdminPosts/PostsList';
 import EditPost from './components/userAdminPosts/UserEditPost';
 import PostDetail from './components/detailview/PostDetail';
 import Header from './components/Header';
+import AdminUserList from "./components/admin/AdminUserList";
 
 function App() {
   return (   
     <Router>
+      <AdminUserList />
       <ScrollToTop />
       <Header />
       <Switch>
