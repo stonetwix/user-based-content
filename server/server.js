@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const postRouter = require('./routers/posts.router');
+const userRouter = require('./routers/users.router')
 
 const app = express();
 const port = 3001;
@@ -8,6 +10,7 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 app.use(postRouter);
+app.use(userRouter);
 
 
 

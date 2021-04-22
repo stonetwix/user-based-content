@@ -40,7 +40,7 @@ router.delete('/api/posts/:id', (req, res) => {
     posts = posts.filter((item) => item.id !== Number(req.params.id));
     writePosts(posts);
     res.status(204).json({});
-})
+});
 
 module.exports = router;
 

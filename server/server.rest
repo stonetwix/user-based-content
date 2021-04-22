@@ -34,3 +34,38 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:3001/api/posts/1
+
+###
+
+GET http://localhost:3001/api/users
+
+###
+
+GET http://localhost:3001/api/users/3
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{   
+    "userName": "New User",
+    "email": "info@hejhej1.com",
+    "role": "publisher"
+}
+
+###
+
+PUT http://localhost:3001/api/users/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "userName": "Edited user",
+    "email": "info@hejhej1.com",
+    "role": "publisher"
+}
+
+###
+
+DELETE http://localhost:3001/api/users/1
