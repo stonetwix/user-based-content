@@ -3,7 +3,7 @@ GET http://localhost:3001/api/posts
 
 ###
 
-GET http://localhost:3001/api/posts/6081603de9c1c13793fce43b
+GET http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
 
 ###
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/6081603de9c1c13793fce43b
+PUT http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/posts/6081624034249e37f9f1c6aa
+DELETE http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
 
 ###
 
