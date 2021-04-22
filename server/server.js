@@ -12,8 +12,16 @@ app.use(express.json());
 app.use(postRouter);
 app.use(userRouter);
 
-
-
-
-//Start server
-app.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));
+async function run() {
+    try {
+        await mongoose.connect(
+            'mongodb://localhost:27017/traveler', 
+            { useNewUrlParser: true, useUnifiedTopology: true }
+        );
+        console.log('Database is connected');
+    } catch (error) {
+        console.error(error)
+    }
+    app.listen(port, () => console.log(`Server is running on port http://localhost:${port}`));
+}
+run();
