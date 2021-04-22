@@ -1,0 +1,36 @@
+GET http://localhost:3001/api/posts
+
+###
+
+GET http://localhost:3001/api/posts/3
+
+###
+
+POST http://localhost:3001/api/posts
+Content-Type: application/json
+
+{   
+    "title": "New Post",
+    "userName": "User Name",
+    "date": "2021-04-20",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque arcu augue, euismod at viverra ac, facilisis ac ante. Vivamus nunc erat, rutrum sit amet neque vitae, luctus aliquet ipsum. Sed dapibus facilisis feugiat. Suspendisse vestibulum at elit et sodales. Praesent leo odio, pulvinar eget ex in, fringilla varius sapien. Aliquam vitae mi in libero efficitur consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin augue erat, faucibus quis enim nec, vestibulum faucibus mauris. Suspendisse sagittis massa ut nibh blandit dapibus. In tincidunt quis magna non congue.",
+    "imageUrl": "https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel3.png?raw=true"
+}
+
+###
+
+PUT http://localhost:3001/api/posts/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "title": "Edited Post",
+    "userName": "User Name",
+    "date": "2021-04-20",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque arcu augue, euismod at viverra ac, facilisis ac ante. Vivamus nunc erat, rutrum sit amet neque vitae, luctus aliquet ipsum. Sed dapibus facilisis feugiat. Suspendisse vestibulum at elit et sodales. Praesent leo odio, pulvinar eget ex in, fringilla varius sapien. Aliquam vitae mi in libero efficitur consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin augue erat, faucibus quis enim nec, vestibulum faucibus mauris. Suspendisse sagittis massa ut nibh blandit dapibus. In tincidunt quis magna non congue.",
+    "imageUrl": "https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel1.png?raw=true"
+}
+
+###
+
+DELETE http://localhost:3001/api/posts/1
