@@ -72,3 +72,7 @@ ul .ant-menu-horizontal {
   background: #78757C;
   border-color: #78757C;
 }
+
+::selection {
+  background: #78757C;
+}

@@ -96,5 +96,6 @@ const postBox: CSSProperties = {
 
 const imageStyle: CSSProperties = {
     width: '100%',
-    margin: '1rem',
+    marginBottom: '1rem',
+    marginTop: '2rem'
 }
