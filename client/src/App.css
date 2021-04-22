@@ -27,5 +27,52 @@ ul .ant-menu-horizontal {
 
 .ant-list-vertical .ant-list-item-extra {
   margin: 0;
-  }
+}
 
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background: #78757C;
+}
+
+.ant-menu-item-selected {
+  color: white;
+}
+
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 5px solid #352D39;
+}
+
+.ant-menu-item-selected a {
+  color: white;
+}
+
+.ant-menu-item:hover {
+  color: white;
+}
+
+.ant-menu-item a:hover {
+  color: white;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  background: #352D39;
+  border-color: #352D39;
+  text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
+  box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+}
+
+.ant-btn-primary:hover {
+  color: #fff;
+  background: #78757C;
+  border-color: #78757C;
+}
+
+.ant-btn:active, .ant-btn:focus {
+  color: #fff;
+  background: #78757C;
+  border-color: #78757C;
+}
+
+::selection {
+  background: #78757C;
+}

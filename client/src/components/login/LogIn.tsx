@@ -1,6 +1,6 @@
 import { Form, Input, Button, Row, Col } from "antd";
 import { CSSProperties, Component } from "react";
-import { Link } from "react-router-dom";
+import { Route } from 'react-router-dom';
 
 const layout = {
   labelCol: {
@@ -19,6 +19,11 @@ const tailLayout = {
 };
 
 class LogIn extends Component {
+
+  handleLogInClick = (history: any) => {
+    history.push('/user');
+  }
+
   onFinish = (values: any) => {
     console.log("Success:", values);
   };
@@ -29,137 +34,67 @@ class LogIn extends Component {
 
   render() {
     return (
-      <div>
-        <Row style={containerStyle}>
-          <Col span={24} style={columnStyle}>
-            <h1
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                fontWeight: "bold",
-              }}
+      <Row style={containerStyle}>
+        <Col span={24} style={columnStyle}>
+          <h1
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              fontWeight: "bold",
+            }}
+          >
+            LOG IN{" "}
+          </h1>
+
+          <Form
+            {...layout}
+            name="basic"
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={this.onFinish}
+            onFinishFailed={this.onFinishFailed}
+          >
+            <Form.Item 
+              label="E-mail" 
+              name="E-mail"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your password!",
+                },
+              ]}>
+              <Input />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your password!",
+                },
+              ]}
             >
-              LOG IN{" "}
-            </h1>
+              <Input.Password />
+            </Form.Item>
 
-            <Form
-              {...layout}
-              name="basic"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={this.onFinish}
-              onFinishFailed={this.onFinishFailed}
-            >
-              <Form.Item label="E-mail" name="E-mail">
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Link to={"/"}>
-                  {/*OBS! LÄGG TILL RÄTT LÄNK */}
-                  <Button type="primary" htmlType="submit" style={buttonStyle}>
-                    Log in
-                  </Button>
-                </Link>
-              </Form.Item>
-            </Form>
-
-            <hr style={hrText} />
-            <div style={{ display: "flex", justifyContent: "center"}}>
-              <h1 style={{ fontWeight: "bold", marginTop: '1rem' }}>
-                NOT YET REGISTERED?
-              </h1>
-            </div>
-
-            <h2 style={{ display: "flex", justifyContent: "center", fontWeight: "bold"}}>
-              Sign up here
-            </h2>
-
-            <Form
-              {...layout}
-              name="basic"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={this.onFinish}
-              onFinishFailed={this.onFinishFailed}
-            >
-              <Form.Item label="User Name" name="username">
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="E-mail"
-                name="E-mail"
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-              <Form.Item
-                name="confirm"
-                label="Confirm Password"
-                dependencies={["password"]}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: "Please confirm your password!",
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(_, value) {
-                      if (!value || getFieldValue("password") === value) {
-                        return Promise.resolve();
-                      }
-                      return Promise.reject(
-                        new Error(
-                          "The two passwords that you entered do not match!"
-                        )
-                      );
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Link to={"/"}>
-                  {/*OBS! LÄGG TILL RÄTT LÄNK */}
-                  <Button type="primary" htmlType="submit" style={buttonStyle}>
-                    Sign up
-                  </Button>
-                </Link>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </div>
+            <Form.Item {...tailLayout}>
+              <Route render={({ history }) => (
+                <Button
+                  type="primary"
+                  htmlType="submit" 
+                  style={buttonStyle}
+                  onClick={() => this.handleLogInClick(history)}
+                >
+                  Log in
+                </Button>
+              )}/>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 }
@@ -175,15 +110,8 @@ const columnStyle: CSSProperties = {
 };
 
 const buttonStyle: CSSProperties = {
-  marginBottom: "10rem",
   float: "right",
   fontWeight: "bold",
-};
-
-const hrText: CSSProperties = {
-  width: "80%",
-  display: "flex",
-  justifyContent: "center",
 };
 
 export default LogIn;
