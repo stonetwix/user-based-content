@@ -1,15 +1,14 @@
-import { Form, Input, Button, message, Layout, Menu } from "antd";
-import { Component, CSSProperties } from "react";
-import { Link } from 'react-router-dom';
-import { UserOutlined, CameraOutlined } from '@ant-design/icons';
+import { Form, Input, Button, message, Layout } from "antd";
+import { Component,  } from "react";
+import SiderMenu from "./SiderMenu";
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 const layout = {
   labelCol: {
     span: 2,
   },
   wrapperCol: {
-    span: 12,
+    span: 16,
   },
 };
 
@@ -34,84 +33,54 @@ const successAdd = () => {
 class AddNewPost extends Component {
 
   render() {
-    // if (!post) {
-    //   return <ErrorPage />
-    // }
 
     return (
-      <Layout>
-        <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={broken => {
-            console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-        }}
-        style={{
-            height: '100vh'
-        }}
+      <Layout style={{ background: '#fff' }}>
+      <SiderMenu />
+      <Content style={{ margin: '8rem', background: '#fff' }}>
+        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+        <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={() => console.log('added')}
+          validateMessages={validateMessages}
+          initialValues={{
+    
+          }}
         >
-          <Link to='/'>
-              <img src={'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/logo-white.png?raw=true'} style={logoStyle} alt={'logo'}/>
-          </Link>
-          <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1" icon={<CameraOutlined />}>
-                Posts
-            </Menu.Item>
-            <Menu.Item key="2" icon={<UserOutlined />}>
-                Users
-            </Menu.Item>
-          </Menu>
-        </Sider>
-        <Layout style={{ background: '#fff' }}>
-          <Content style={{ margin: '4rem', background: '#fff' }}>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            <Form
-              {...layout}
-              name="nest-messages"
-              onFinish={() => console.log('saved')}
-              validateMessages={validateMessages}
-              initialValues={{
-              }}
-            >
-              <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD POST </h1>
-              <Form.Item name={["post", "title"]} label="Title" rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
+          <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD POST</h1>
+          <Form.Item name={["post", "title"]} label="Title" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
 
-              <Form.Item name={["post", "text"]} label="Text" rules={[{ required: true }]}>
-                <Input.TextArea rows={8}/>
-              </Form.Item>
-              
-              <Form.Item name={["post", "imageUrl"]} label="ImageUrl" rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
+          <Form.Item name={["post", "text"]} label="Text" rules={[{ required: true }]}>
+            <Input.TextArea rows={10}/>
+          </Form.Item>
+          
+          <Form.Item name={["post", "imageUrl"]} label="ImageUrl" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
 
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <Button 
-                    type="primary"
-                    onClick={() => {console.log('Post added'); successAdd();}} 
-                    htmlType="submit" 
-                  >
-                    Save
-                  </Button>
-                </div>
-              </Form.Item>
-            </Form>
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 2 }}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <Button 
+                type="primary"
+                onClick={() => {console.log('Post added'); successAdd();}} 
+                htmlType="submit" 
+              >
+                Save
+              </Button>
             </div>
-          </Content>
-        </Layout>
-      </Layout>
-    );
-  }
-}
+          </Form.Item>
+        </Form>
+        </div>
+      </Content>
+    </Layout>
+
+
+    )
+  }};
+     
 
 export default AddNewPost;
 
-const logoStyle: CSSProperties = {
-  width: '10rem',
-  margin: '1rem',
-}
