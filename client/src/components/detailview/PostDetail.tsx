@@ -61,6 +61,7 @@ const titleStyle: CSSProperties = {
     fontSize: '2rem',
     marginTop: '2rem',
     fontWeight: 'bold',
+    color: '#352D39'
  }
 
  const usernameStyle: CSSProperties = {

@@ -8,6 +8,9 @@ import PostsListUser from './components/userAdminPosts/PostsList';
 import EditPost from './components/userAdminPosts/UserEditPost';
 import PostDetail from './components/detailview/PostDetail';
 import Header from './components/Header';
+import AdminUserList from "./components/admin/AdminUserList";
+import AdminEditUser from "./components/admin/AdminEditUser";
+import AdminAddNewUser from "./components/admin/AdminAddNewUser";
 
 function App() {
   return (   
@@ -18,9 +21,12 @@ function App() {
         <Route exact path="/" component={StartPageView} />
         <Route path="/post/:id" component={PostDetail} />
         <Route path="/login" component={LogInView} />
-        <Route path="/user/:id" component={PostsListUser} />
-        <Route path="/user/:id/post/:id" component={EditPost} />
-        <Route path="/registered" component={RegisterSuccess} />
+        <Route path="/user" component={PostsListUser} />
+        <Route path="/edit-post/:id" component={EditPost} />
+        <Route path="/registersuccess" component={RegisterSuccess} />
+        <Route path="/admin/users" component={AdminUserList} />
+        <Route path="/admin/edit/user/:id" component={AdminEditUser} />
+        <Route path="/admin/adduser" component={AdminAddNewUser} />
       </Switch>
   </Router>
   );
