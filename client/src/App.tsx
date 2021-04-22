@@ -11,6 +11,7 @@ import Header from './components/Header';
 import AdminUserList from "./components/admin/AdminUserList";
 import AdminEditUser from "./components/admin/AdminEditUser";
 import AdminAddNewUser from "./components/admin/AdminAddNewUser";
+import UserAddNewPost from "./components/userAdminPosts/UserAddNewPost";
 
 function App() {
   return (   
@@ -21,7 +22,8 @@ function App() {
         <Route exact path="/" component={StartPageView} />
         <Route path="/post/:id" component={PostDetail} />
         <Route path="/login" component={LogInView} />
-        <Route path="/user" component={PostsListUser} />
+        <Route exact path="/user" component={PostsListUser} />
+        <Route path="/user/add-new-post" component={UserAddNewPost} />
         <Route path="/edit-post/:id" component={EditPost} />
         <Route path="/registersuccess" component={RegisterSuccess} />
         <Route path="/admin/users" component={AdminUserList} />
