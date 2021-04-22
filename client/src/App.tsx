@@ -22,7 +22,7 @@ function App() {
         <Route exact path="/" component={StartPageView} />
         <Route path="/post/:id" component={PostDetail} />
         <Route path="/login" component={LogInView} />
-        <Route path="/user" component={PostsListUser} />
+        <Route exact path="/user" component={PostsListUser} />
         <Route path="/user/add-new-post" component={UserAddNewPost} />
         <Route path="/edit-post/:id" component={EditPost} />
         <Route path="/registersuccess" component={RegisterSuccess} />
