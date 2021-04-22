@@ -1,7 +1,7 @@
 import { Form, Input, Button, message, Layout } from "antd";
 import { Component } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { Post, posts } from '../startpage/Post';
+import { Post } from '../startpage/Post';
 import ErrorPage from '../ErrorPage';
 import SiderMenu from './SiderMenu';
 
@@ -29,9 +29,9 @@ const validateMessages = {
 };
 
 interface Props extends RouteComponentProps<{ id: string }> {}
-
 interface State {
   post?: Post;
+  buttonSaveLoading: boolean;
 }
 
 const successSave = () => {
@@ -41,29 +41,24 @@ const successSave = () => {
 class EditPost extends Component<Props, State> {
   state: State = {
     post: undefined,
+    buttonSaveLoading: false,
+
   };
-
-//   onFinish = async (values: any) => {
-//     this.setState({ buttonSaveLoading: true });
-//     try {
-//       await saveDeleteProductMockApi();
-//     } catch (error) {
-//         console.log(error);
-//         return;
-//     }
-//     const products = JSON.parse(localStorage.getItem("products") as string) || [];
-//     const editedProduct: Product = {...this.state.product, ...values.product};
-//     const updatedProducts = products.map((item: Product) => item.id === editedProduct.id ? editedProduct : item);
-//     localStorage.setItem('products', JSON.stringify(updatedProducts));
-//     this.props.history.push('/admin-list');
-//     this.setState({ buttonSaveLoading: false });
-//   }
-
-  componentDidMount() {
-    const post = posts.find((p: Post) => p.id === Number(this.props.match.params.id));
+  async componentDidMount() {
+    const post = await getPost(Number((this.props.match.params as any).id));
     this.setState({ post: post });
   }
 
+  onFinish = async (values: any) => {
+    this.setState({ buttonSaveLoading: true });
+    await putPost(values.post, (this.props.match.params as any).id);
+    this.props.history.push('/');
+    this.setState({ buttonSaveLoading: false });
+  }
+ 
+  componentWillUnmount() {
+    this.setState({ post: undefined });
+  }
   render() {
     const { post } = this.state;
     if (!post) {
@@ -78,7 +73,7 @@ class EditPost extends Component<Props, State> {
           <Form
             {...layout}
             name="nest-messages"
-            onFinish={() => console.log('saved')}
+            onFinish={this.onFinish}
             validateMessages={validateMessages}
             initialValues={{
               post: {
@@ -106,7 +101,9 @@ class EditPost extends Component<Props, State> {
                 <Button 
                   type="primary"
                   onClick={() => {console.log('Post updated'); successSave();}} 
-                  htmlType="submit" 
+                  htmlType="submit"
+                  loading={this.state.buttonSaveLoading}
+
                 >
                   Save
                 </Button>
@@ -121,3 +118,28 @@ class EditPost extends Component<Props, State> {
 }
 
 export default withRouter(EditPost);
+
+
+const getPost = async (id: number) => {
+  try {
+      let response = await fetch('http://localhost:3001/api/posts/' + id);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+const putPost = async (post: Post, id: number) => {
+  try {
+      await fetch('http://localhost:3001/api/posts/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(post)
+      });
+  } catch (error) {
+      console.error(error);
+  }
+}
