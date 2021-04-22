@@ -1,5 +1,6 @@
 import { Form, Input, Button, message, Layout } from "antd";
 import { Component,  } from "react";
+import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from "./SiderMenu";
 
 const { Content } = Layout;
@@ -30,7 +31,18 @@ const successAdd = () => {
   message.success('The post is published', 3);
 };
 
-class AddNewPost extends Component {
+interface State {
+post?: undefined; 
+}
+
+interface Props extends RouteComponentProps<{ id: string }> {}
+
+class UserAddNewPost extends Component<Props, State>{
+ 
+  state: State = {
+    post: undefined
+  };
+
 
   render() {
 
@@ -82,5 +94,5 @@ class AddNewPost extends Component {
   }};
      
 
-export default AddNewPost;
+export default withRouter(UserAddNewPost);
 

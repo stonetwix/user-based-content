@@ -14,7 +14,7 @@ class PostsListUser extends Component {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                        <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}>Create New Post</Button>
+                    <Link to={'/user/add-new-post'}> <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}> Create New Post </Button> </Link>
                         <List
                             itemLayout="horizontal"
                             dataSource={posts}
