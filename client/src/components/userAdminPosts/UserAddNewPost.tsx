@@ -1,6 +1,7 @@
 import { Form, Input, Button, message, Layout } from "antd";
 import { Component,  } from "react";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import Post from "../startpage/Post";
 import SiderMenu from "./SiderMenu";
 
 const { Content } = Layout;
@@ -31,18 +32,34 @@ const successAdd = () => {
   message.success('The post is published', 3);
 };
 
-interface State {
-post?: undefined; 
-}
+
 
 interface Props extends RouteComponentProps<{ id: string }> {}
-
+interface State {
+  post: Post | undefined;
+  buttonSaveLoading: boolean;  
+  }
 class UserAddNewPost extends Component<Props, State>{
  
   state: State = {
-    post: undefined
+    post: undefined,
+    buttonSaveLoading: false,
+
   };
 
+  
+
+
+onFinish = async (values: any) => {
+  this.setState({ buttonSaveLoading: true });
+  await addPost (values.post);
+  this.props.history.push('/');
+  this.setState({ buttonSaveLoading: false });
+};
+
+componentWillUnmount() {
+  this.setState({ post: undefined });
+};
 
   render() {
 
@@ -54,7 +71,7 @@ class UserAddNewPost extends Component<Props, State>{
         <Form
           {...layout}
           name="nest-messages"
-          onFinish={() => console.log('added')}
+          onFinish={this.onFinish}
           validateMessages={validateMessages}
           initialValues={{
     
@@ -79,6 +96,7 @@ class UserAddNewPost extends Component<Props, State>{
                 type="primary"
                 onClick={() => {console.log('Post added'); successAdd();}} 
                 htmlType="submit" 
+                loading={this.state.buttonSaveLoading}
               >
                 Save
               </Button>
@@ -92,7 +110,22 @@ class UserAddNewPost extends Component<Props, State>{
 
     )
   }};
+
+  
      
 
 export default withRouter(UserAddNewPost);
 
+const addPost = async (post: Post) => {
+  try {
+      await fetch('http://localhost:3001/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(post)
+      });
+  } catch (error) {
+      console.error(error);
+  }
+}
