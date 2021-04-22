@@ -1,8 +1,9 @@
+//Posts
 GET http://localhost:3001/api/posts
 
 ###
 
-GET http://localhost:3001/api/posts/3
+GET http://localhost:3001/api/posts/6081603de9c1c13793fce43b
 
 ###
 
@@ -11,7 +12,7 @@ Content-Type: application/json
 
 {   
     "title": "New Post",
-    "userName": "User Name",
+    "author": "User Name",
     "date": "2021-04-20",
     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque arcu augue, euismod at viverra ac, facilisis ac ante. Vivamus nunc erat, rutrum sit amet neque vitae, luctus aliquet ipsum. Sed dapibus facilisis feugiat. Suspendisse vestibulum at elit et sodales. Praesent leo odio, pulvinar eget ex in, fringilla varius sapien. Aliquam vitae mi in libero efficitur consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin augue erat, faucibus quis enim nec, vestibulum faucibus mauris. Suspendisse sagittis massa ut nibh blandit dapibus. In tincidunt quis magna non congue.",
     "imageUrl": "https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel3.png?raw=true"
@@ -19,24 +20,24 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/1
+PUT http://localhost:3001/api/posts/6081603de9c1c13793fce43b
 Content-Type: application/json
 
 {
-    "id": 1,
     "title": "Edited Post",
-    "userName": "User Name",
+    "author": "User Name",
     "date": "2021-04-20",
-    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque arcu augue, euismod at viverra ac, facilisis ac ante. Vivamus nunc erat, rutrum sit amet neque vitae, luctus aliquet ipsum. Sed dapibus facilisis feugiat. Suspendisse vestibulum at elit et sodales. Praesent leo odio, pulvinar eget ex in, fringilla varius sapien. Aliquam vitae mi in libero efficitur consectetur. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin augue erat, faucibus quis enim nec, vestibulum faucibus mauris. Suspendisse sagittis massa ut nibh blandit dapibus. In tincidunt quis magna non congue.",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "imageUrl": "https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel1.png?raw=true"
 }
 
 ###
 
-DELETE http://localhost:3001/api/posts/1
+DELETE http://localhost:3001/api/posts/6081624034249e37f9f1c6aa
 
 ###
 
+//Users
 GET http://localhost:3001/api/users
 
 ###
