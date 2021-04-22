@@ -7,7 +7,26 @@ import SiderMenu from './SiderMenu';
 
 const { Content } = Layout;
 
-class PostsListUser extends Component {
+export interface Post {
+    id: number
+    title: string
+    userName: string
+    date: string
+    text: string
+    imageUrl: string
+  }
+interface State {
+    posts?: Post []
+  }
+class PostsListUser extends Component < {}, State> {
+
+    state: State ={
+        posts: []
+      }
+      async componentDidMount() {
+        const posts = await getPosts();
+        this.setState({ posts: posts });
+    }
     render () {
         return (
             <Layout style={{ background: '#fff' }}>
@@ -17,7 +36,7 @@ class PostsListUser extends Component {
                     <Link to={'/user/add-new-post'}> <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}> Create New Post </Button> </Link>
                         <List
                             itemLayout="horizontal"
-                            dataSource={posts}
+                            dataSource={this.state.posts}
                             renderItem={item => (
                             <List.Item actions={[
                                 <Link to={'/edit-post/' + item.id}>  
@@ -73,3 +92,13 @@ const editStyle: CSSProperties = {
     marginRight: '1rem',
     boxShadow: 'none'
 }
+
+const getPosts = async () => {
+    try {
+        let response = await fetch('http://localhost:3001/api/posts');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+  }
