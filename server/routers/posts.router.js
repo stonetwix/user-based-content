@@ -1,6 +1,7 @@
 const express = require('express');
 const postsRouter = express.Router();
 const PostModel = require('../models/posts.model');
+
 const { body, validationResult } = require('express-validator');
 
 //Endpoints

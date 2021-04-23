@@ -1,6 +1,7 @@
 const express = require('express');
 const userRouter = express.Router();
 const UserModel = require('../models/users.model');
+
 const { body, validationResult } = require('express-validator');
 
 //Endpoints
@@ -25,7 +26,7 @@ userRouter.post('/api/users',
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()});
+            return res.status(400).json({ errors: errors.array() });
         }
         const user = req.body;
         user.role = 'publisher';
@@ -43,7 +44,7 @@ userRouter.put('/api/users/:id',
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()});
+            return res.status(400).json({ errors: errors.array() });
         }
         try {
             const user = await UserModel.findById(req.params.id).updateOne(req.body);
