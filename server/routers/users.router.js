@@ -1,57 +1,67 @@
 const express = require('express');
-const router = express.Router();
-const fs = require('fs');
+const userRouter = express.Router();
+const UserModel = require('../models/users.model');
+
+const { body, validationResult } = require('express-validator');
 
 //Endpoints
-router.get('/api/users', (req, res) => {
-    res.status(200).json(readUsers());
+userRouter.get('/api/users', async (req, res) => {
+    const users = await UserModel.find({});
+    res.status(200).json(users);
 });
 
-router.get('/api/users/:id', (req, res) => {
-    const users = readUsers();
-    const user = users.find(u => u.id === Number(req.params.id));
-    if (!user) {
+userRouter.get('/api/users/:id', async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.params.id);
+        res.status(200).json(user);      
+    } catch (error) {
         res.status(404).json({ error: 'User not available' });
     }
-    res.status(200).json(user);
 });
 
-router.post('/api/users', (req, res) => {
-    const users = readUsers();
-    const newUser = req.body;
-    newUser.id = Math.max(...users.map((item) => item.id)) + 1;
-    users.push(newUser);
-    writeUsers(users);
-    res.status(201).json(newUser);
+userRouter.post('/api/users', 
+    body('userName').not().isEmpty(),
+    body('email').isEmail().normalizeEmail(),
+    body('password').not().isEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        const user = req.body;
+        user.role = 'publisher';
+        user.password = user.password; // Add Bcrypt
+        const newUser = await UserModel.create(user);
+        res.status(201).json(newUser);
+    }
+);
+
+userRouter.put('/api/users/:id', 
+    body('userName').not().isEmpty(),
+    body('email').isEmail().normalizeEmail(),
+    body('role').not().isEmpty(),
+    body('password').not().isEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        try {
+            const user = await UserModel.findById(req.params.id).updateOne(req.body);
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(404).json({ error: 'User not available' });
+        }
+    }
+);
+
+userRouter.delete('/api/users/:id', async (req, res) => {
+    try {
+        await UserModel.findById(req.params.id).deleteOne();
+        res.status(204).json({});
+    } catch (error) {
+        res.status(404).json({ error: 'User not available' });
+    }
 });
 
-router.put('/api/users/:id', (req, res) => {
-    let users = readUsers();
-    const user = req.body;
-    const id = Number(req.params.id);
-    user.id = id;
-    users = users.map((item) => item.id === id ? user : item);
-    writeUsers(users);
-    res.status(200).json(req.body);
-});
-
-router.delete('/api/users/:id', (req, res) => {
-    let users = readUsers();
-    users = users.filter((item) => item.id !== Number(req.params.id));
-    writeUsers(users);
-    res.status(204).json({});
-});
-
-
-module.exports = router;
-
-//Helper functions to read/write users from/to JSON
-function readUsers() {
-    let rawdata = fs.readFileSync('users.json');
-    return JSON.parse(rawdata);
-}
-
-function writeUsers(users) {
-    let data = JSON.stringify(users);
-    fs.writeFileSync('users.json', data);
-}
+module.exports = userRouter;
