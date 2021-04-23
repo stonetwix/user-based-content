@@ -13,26 +13,23 @@ export interface User {
 
 const { Content } = Layout;
 
-export const users: User[] = [{
-    id: 1,
-    userName: 'User Name 1',
-    email: 'info@hejhej1.com',
-    role: 'publisher',
-},
-{
-    id: 2,
-    userName: 'User Name 2',
-    email: 'info@hejhej2.com',
-    role: 'publisher',
-},
-{
-    id: 3,
-    userName: 'User Name 3',
-    email: 'info@hejhej3.com',
-    role: 'admin',
-}];
 
-class AdminUserList extends Component {
+
+interface State {
+    users?: User []
+  }
+
+class AdminUserList extends Component < {}, State>{
+
+    state: State ={
+        users: []
+      }
+      async componentDidMount() {
+        const users= await getUsers();
+        this.setState({ users: users });
+    }
+
+
     render () {
         return (
             <Layout style={{ background: '#fff' }}>
@@ -51,7 +48,7 @@ class AdminUserList extends Component {
                     </Link>
                         <List
                             itemLayout="horizontal"
-                            dataSource={users}
+                            dataSource={this.state.users}
                             renderItem={item => (
                             <List.Item actions={[
                                 <Link to={'/admin/edit/user/' + item.id}>
@@ -106,4 +103,14 @@ const editStyle: CSSProperties = {
     marginTop: '1.2rem',
     marginRight: '1rem',
     boxShadow: 'none'
+}
+
+const getUsers = async () => {
+    try {
+        let response = await fetch('http://localhost:3001/api/users');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
 }

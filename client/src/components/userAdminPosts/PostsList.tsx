@@ -1,13 +1,53 @@
 import { Component, CSSProperties } from 'react';
-import { Link } from 'react-router-dom';
-import { Layout, Button, List, Avatar } from 'antd';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Layout, Button, List, Avatar, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
-import { posts } from '../startpage/Post';
 import SiderMenu from './SiderMenu';
 
 const { Content } = Layout;
 
-class PostsListUser extends Component {
+export interface Post {
+    id: number
+    title: string
+    author: string
+    date: string
+    text: string
+    imageUrl: string
+  }
+
+  interface Props extends RouteComponentProps<{ id: string }> {}
+ 
+interface State {
+    posts?: Post [];
+    buttonDeleteLoading: boolean;
+  }
+
+
+const successDelete = () => {
+    message.success('The product has been deleted', 3);
+  };
+class PostsListUser extends Component <Props, State> {
+
+    state: State ={
+        posts: [],
+        buttonDeleteLoading: false
+      }
+      async componentDidMount() {
+        const posts = await getPosts();
+        this.setState({ posts: posts });
+    }
+
+    componentWillUnmount() {
+        this.setState({ posts: undefined });
+      }
+
+    handleDelete = async (id: number) => {
+        this.setState({ buttonDeleteLoading: true });
+        await deletePost(id);
+        this.props.history.push('/');
+        this.setState({ buttonDeleteLoading: false });
+      }
+    
     render () {
         return (
             <Layout style={{ background: '#fff' }}>
@@ -17,7 +57,7 @@ class PostsListUser extends Component {
                     <Link to={'/user/add-new-post'}> <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}> Create New Post </Button> </Link>
                         <List
                             itemLayout="horizontal"
-                            dataSource={posts}
+                            dataSource={this.state.posts}
                             renderItem={item => (
                             <List.Item actions={[
                                 <Link to={'/edit-post/' + item.id}>  
@@ -30,9 +70,10 @@ class PostsListUser extends Component {
                                     </Button>
                                 </Link>, 
                                 <Button key="delete-post" 
-                                onClick={() => console.log('delete-clicked')}
-                                style={deleteStyle}
+                                onClick={() => {this.handleDelete(Number((this.props.match.params as any).id)); successDelete();}}                                 style={deleteStyle}
                                 icon={<DeleteOutlined />}
+                                loading={this.state.buttonDeleteLoading}
+
                                 >
                                     delete
                                 </Button>]}
@@ -73,3 +114,23 @@ const editStyle: CSSProperties = {
     marginRight: '1rem',
     boxShadow: 'none'
 }
+
+const getPosts = async () => {
+    try {
+        let response = await fetch('http://localhost:3001/api/posts/');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+  } 
+
+  const deletePost = async (id: number) => {
+    try {
+        await fetch('http://localhost:3001/api/posts/' + id, {
+          method: 'DELETE',
+        });
+    } catch (error) {
+        console.error(error);
+    }
+  }

@@ -1,6 +1,6 @@
 import { Component, CSSProperties } from 'react';
 import { Row, Col } from 'antd';
-import { Post, posts } from '../startpage/Post';
+import { Post} from '../startpage/Post';
 import ErrorPage from '../ErrorPage';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -18,12 +18,14 @@ class PostDetail extends Component<Props, State> {
         post: undefined,
     }
 
-    componentDidMount() {
-        const postId = Number((this.props.match.params as any).id)
-        const post = posts.find((p: Post) => p.id === postId);
+    async componentDidMount() {
+        const post = await getPost(Number((this.props.match.params as any).id));
         this.setState({post: post})
     }
 
+    componentWillUnmount() {
+        this.setState({ post: undefined });
+      }
     render () {
         if (!this.state.post) {
             return <ErrorPage />
@@ -33,7 +35,7 @@ class PostDetail extends Component<Props, State> {
                 <Col lg={{span: 24}} style={columnStyle}>
                     <img src={this.state.post.imageUrl} alt={this.state.post.title}/>          
                     <h1 style={titleStyle}>{this.state.post.title}</h1>
-                    <h3 style={usernameStyle}>{this.state.post.userName}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{this.state.post.date}</h3>
+                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{this.state.post.date}</h3>
                     <p>{this.state.post.text}</p>
                 </Col>
             </Row>
@@ -69,3 +71,13 @@ const titleStyle: CSSProperties = {
      color: '#aaa',
      textTransform: 'uppercase',
  }
+
+ const getPost = async (id: number) => {
+    try {
+        let response = await fetch('http://localhost:3001/api/posts/' + id);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+  }

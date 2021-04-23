@@ -2,6 +2,7 @@ import { Component, CSSProperties } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../userAdminPosts/SiderMenu';
+import { User } from "./AdminUserList";
 
 const { Content } = Layout;
 const layout = {
@@ -27,37 +28,33 @@ const validateMessages = {
 
 interface Props extends RouteComponentProps<{ id: string }> {}
 
-// interface State {
-//   product: Product | undefined;
-//   buttonSaveLoading: boolean;
-// }
+
+  interface State {
+ user: User | undefined;
+  buttonSaveLoading: boolean;
+ }
 
 const success = () => {
   message.success('The user has been added', 3);
 };
-class AddNewUser extends Component<Props> {
-  
-//   state: State = {
-//     product: undefined,
-//     buttonSaveLoading: false,
-//   };
-  
-//   onFinish = async (values: any) => {
-//     this.setState({ buttonSaveLoading: true });
-//     try {
-//       await saveNewProductMockApi();
-//     } catch (error) {
-//         console.log(error);
-//         return;
-//     }
-//     const existingProducts = JSON.parse(localStorage.getItem("products") as string) || [];
-//     const newProduct: Product = {...values.product};
-//     newProduct.id = Math.max(...existingProducts.map((item: Product) => item.id)) + 1;
-//     existingProducts.push(newProduct)
-//     localStorage.setItem('products', JSON.stringify(existingProducts));
-//     this.props.history.push('/admin-list');
-//     this.setState({ buttonSaveLoading: false });
-//   };
+class AddNewUser extends Component<Props, State> {
+  state: State = {
+    user: undefined,
+    buttonSaveLoading: false,
+  };
+
+  onFinish = async (values: any) => {
+    this.setState({ buttonSaveLoading: true });
+    await addNewUser(values.user);
+    this.props.history.push('/admin/users');
+    this.setState({ buttonSaveLoading: false });
+  };
+
+
+  componentWillUnmount() {
+    this.setState({ user: undefined });
+  };
+
 
   render() {
     return (
@@ -68,7 +65,7 @@ class AddNewUser extends Component<Props> {
                     <Form
                         {...layout}
                         name="nest-messages"
-                        onFinish={() => console.log('saved')}
+                        onFinish={this.onFinish}
                         validateMessages={validateMessages}
                     >
                         <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD NEW USER</h1>
@@ -93,6 +90,7 @@ class AddNewUser extends Component<Props> {
                                 type="primary"
                                 onClick={() => {console.log('User added'); success();}} 
                                 htmlType="submit" 
+                                loading={this.state.buttonSaveLoading}
                                 >
                                 Save
                                 </Button>
@@ -120,3 +118,18 @@ const columnStyle: CSSProperties = {
 };
 
 export default withRouter(AddNewUser); 
+
+
+const addNewUser = async (user: User) => {
+  try {
+      await fetch('http://localhost:3001/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      });
+  } catch (error) {
+      console.error(error);
+  }
+}

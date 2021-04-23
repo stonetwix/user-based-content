@@ -2,7 +2,7 @@ import { Form, Input, Button, message, Layout, Select } from "antd";
 import { Component } from "react";
 import SiderMenu from '../userAdminPosts/SiderMenu';
 import { RouteComponentProps, withRouter } from "react-router-dom";
-import { User, users } from "./AdminUserList";
+import { User } from "./AdminUserList";
 import ErrorPage from '../ErrorPage';
 
 const { Content } = Layout;
@@ -32,6 +32,8 @@ interface Props extends RouteComponentProps<{ id: string }> {}
 
 interface State {
   user?: User;
+  buttonSaveLoading: boolean;
+
 }
 
 const successSave = () => {
@@ -41,27 +43,25 @@ const successSave = () => {
 class AdminEditUser extends Component<Props, State> {
   state: State = {
     user: undefined,
+    buttonSaveLoading: false,
+
   };
 
-//   onFinish = async (values: any) => {
-//     this.setState({ buttonSaveLoading: true });
-//     try {
-//       await saveDeleteProductMockApi();
-//     } catch (error) {
-//         console.log(error);
-//         return;
-//     }
-//     const products = JSON.parse(localStorage.getItem("products") as string) || [];
-//     const editedProduct: Product = {...this.state.product, ...values.product};
-//     const updatedProducts = products.map((item: Product) => item.id === editedProduct.id ? editedProduct : item);
-//     localStorage.setItem('products', JSON.stringify(updatedProducts));
-//     this.props.history.push('/admin-list');
-//     this.setState({ buttonSaveLoading: false });
-//   }
 
-  componentDidMount() {
-    const user = users.find((u: User ) => u.id === Number(this.props.match.params.id));
+  async componentDidMount() {
+    const user = await getUser(Number((this.props.match.params as any).id));
     this.setState({ user: user });
+  }
+  onFinish = async (values: any) => {
+    this.setState({ buttonSaveLoading: true });
+    await putUser(values.user, (this.props.match.params as any).id);
+    this.props.history.push('/admin/users');
+    this.setState({ buttonSaveLoading: false });
+  }
+ 
+
+  componentWillUnmount() {
+    this.setState({ user: undefined });
   }
 
   render() {
@@ -78,7 +78,7 @@ class AdminEditUser extends Component<Props, State> {
             <Form
               {...layout}
               name="nest-messages"
-              onFinish={() => console.log('saved')}
+              onFinish={this.onFinish}
               validateMessages={validateMessages}
               initialValues={{
                 user: {
@@ -110,6 +110,8 @@ class AdminEditUser extends Component<Props, State> {
                     type="primary"
                     onClick={() => {console.log('Post updated'); successSave();}} 
                     htmlType="submit" 
+                    loading={this.state.buttonSaveLoading}
+
                   >
                     Save
                   </Button>
@@ -124,3 +126,27 @@ class AdminEditUser extends Component<Props, State> {
 }
 
 export default withRouter(AdminEditUser);
+
+const getUser = async (id: number) => {
+  try {
+      let response = await fetch('http://localhost:3001/api/users/' + id);
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error(error);
+  }
+}
+
+const putUser = async (user: User, id: number) => {
+  try {
+      await fetch('http://localhost:3001/api/users/' + id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      });
+  } catch (error) {
+      console.error(error);
+  }
+}
