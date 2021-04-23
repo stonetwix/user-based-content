@@ -5,13 +5,14 @@ import { Link } from 'react-router-dom';
 export interface Post {
   id: number
   title: string
-  userName: string
+  author: string
   date: string
   text: string
   imageUrl: string
 }
 
 
+/*
 export const posts: Post[] = [{
   id: 1,
   title: 'Lorem ipsum dolor sit amet',
@@ -37,7 +38,7 @@ id: 2,
     imageUrl: 'https://github.com/stonetwix/user-based-content/blob/main/client/src/assets/travel4.png?raw=true',
   }
 ];
-
+*/ 
 
 interface State {
   posts?: Post []
