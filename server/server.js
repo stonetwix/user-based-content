@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+require('express-async-errors');
 const postRouter = require('./routers/posts.router');
-const userRouter = require('./routers/users.router')
+const userRouter = require('./routers/users.router');
 
 const app = express();
 const port = 3001;
