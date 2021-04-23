@@ -47,22 +47,18 @@ class UserAddNewPost extends Component<Props, State>{
 
   };
 
-  
-
-
 onFinish = async (values: any) => {
   this.setState({ buttonSaveLoading: true });
-  await addPost (values.post);
-  this.props.history.push('/');
+  await addPost(values.post);
+  this.props.history.push('/user');
   this.setState({ buttonSaveLoading: false });
 };
 
-componentWillUnmount() {
-  this.setState({ post: undefined });
-};
+// componentWillUnmount() {
+//   this.setState({ post: undefined });
+// };
 
   render() {
-
     return (
       <Layout style={{ background: '#fff' }}>
       <SiderMenu />
@@ -73,9 +69,6 @@ componentWillUnmount() {
           name="nest-messages"
           onFinish={this.onFinish}
           validateMessages={validateMessages}
-          initialValues={{
-    
-          }}
         >
           <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD POST</h1>
           <Form.Item name={["post", "title"]} label="Title" rules={[{ required: true }]}>
@@ -106,13 +99,8 @@ componentWillUnmount() {
         </div>
       </Content>
     </Layout>
-
-
     )
   }};
-
-  
-     
 
 export default withRouter(UserAddNewPost);
 

@@ -21,8 +21,6 @@ postsRouter.get('/api/posts/:id', async (req, res) => {
 
 postsRouter.post('/api/posts', 
     body('title').not().isEmpty(),
-    body('author').not().isEmpty(),
-    body('date').not().isEmpty(),
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {
@@ -30,6 +28,9 @@ postsRouter.post('/api/posts',
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array()});
         }
+        const post = req.body;
+        post.author = 'user.userName';
+        post.date = new Date().toISOString().slice(0, 10);
         const newPost = await PostModel.create(req.body);
         res.status(201).json(newPost);
     }
@@ -37,8 +38,6 @@ postsRouter.post('/api/posts',
 
 postsRouter.put('/api/posts/:id', 
     body('title').not().isEmpty(),
-    body('author').not().isEmpty(),
-    body('date').not().isEmpty(),
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {

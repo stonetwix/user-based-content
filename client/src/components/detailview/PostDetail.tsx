@@ -9,7 +9,7 @@ interface State {
 }
 
 interface Props extends RouteComponentProps {
-    id: number
+    _id: string
 }
 
 class PostDetail extends Component<Props, State> {
@@ -19,7 +19,7 @@ class PostDetail extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        const post = await getPost(Number((this.props.match.params as any).id));
+        const post = await getPost((this.props.match.params as any)._id);
         this.setState({post: post})
     }
 
@@ -72,9 +72,9 @@ const titleStyle: CSSProperties = {
      textTransform: 'uppercase',
  }
 
- const getPost = async (id: number) => {
+ const getPost = async (_id: string) => {
     try {
-        let response = await fetch('http://localhost:3001/api/posts/' + id);
+        let response = await fetch('http://localhost:3001/api/posts/' + _id);
         const data = await response.json();
         return data;
     } catch (error) {

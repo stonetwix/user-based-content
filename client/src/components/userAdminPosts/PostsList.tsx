@@ -7,46 +7,41 @@ import SiderMenu from './SiderMenu';
 const { Content } = Layout;
 
 export interface Post {
-    id: number
+    _id: string
     title: string
     author: string
     date: string
     text: string
     imageUrl: string
-  }
+}
 
-  interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ _id: string }> {}
  
 interface State {
-    posts?: Post [];
+    posts?: Post[];
     buttonDeleteLoading: boolean;
-  }
-
+}
 
 const successDelete = () => {
     message.success('The product has been deleted', 3);
-  };
+};
 class PostsListUser extends Component <Props, State> {
 
     state: State ={
         posts: [],
         buttonDeleteLoading: false
-      }
-      async componentDidMount() {
+    }
+    
+    async componentDidMount() {
         const posts = await getPosts();
         this.setState({ posts: posts });
     }
 
-    componentWillUnmount() {
-        this.setState({ posts: undefined });
-      }
-
-    handleDelete = async (id: number) => {
-        this.setState({ buttonDeleteLoading: true });
-        await deletePost(id);
-        this.props.history.push('/');
-        this.setState({ buttonDeleteLoading: false });
-      }
+    handleDelete = async (_id: string) => {
+        await deletePost(_id);
+        const posts = await getPosts();
+        this.setState({ posts: posts });
+    }
     
     render () {
         return (
@@ -54,14 +49,23 @@ class PostsListUser extends Component <Props, State> {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                    <Link to={'/user/add-new-post'}> <Button type="primary" icon={<PlusCircleOutlined />} style={{ marginBottom: '4rem' }} onClick={() => console.log('new post clicked')}> Create New Post </Button> </Link>
+                    <Link to={'/user/add-new-post'}> 
+                        <Button type="primary" 
+                            icon={<PlusCircleOutlined />} 
+                            style={{ marginBottom: '4rem' }} 
+                            onClick={() => console.log('new post clicked')}
+                        > 
+                            Create New Post 
+                        </Button> 
+                    </Link>
                         <List
                             itemLayout="horizontal"
                             dataSource={this.state.posts}
                             renderItem={item => (
                             <List.Item actions={[
-                                <Link to={'/edit-post/' + item.id}>  
-                                    <Button key="edit-post" 
+                                <Link to={'/edit-post/' + item._id}>  
+                                    <Button 
+                                    key="edit-post" 
                                     onClick={() => console.log('edit-clicked')}
                                     style={editStyle}
                                     icon={<FormOutlined />}
@@ -69,20 +73,21 @@ class PostsListUser extends Component <Props, State> {
                                         edit
                                     </Button>
                                 </Link>, 
-                                <Button key="delete-post" 
-                                onClick={() => {this.handleDelete(Number((this.props.match.params as any).id)); successDelete();}}                                 style={deleteStyle}
-                                icon={<DeleteOutlined />}
-                                loading={this.state.buttonDeleteLoading}
-
+                                <Button 
+                                    key="delete-post" 
+                                    onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
+                                    style={deleteStyle}
+                                    icon={<DeleteOutlined />}
+                                    loading={this.state.buttonDeleteLoading}
                                 >
                                     delete
                                 </Button>]}
                             >
-                                <List.Item.Meta
+                            <List.Item.Meta
                                 avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
                                 title={item.title}
                                 description={item.text.substring(0, 35) + '...'}
-                                />
+                            />
                             </List.Item>
                             )}
                         />
@@ -123,14 +128,14 @@ const getPosts = async () => {
     } catch (error) {
         console.error(error);
     }
-  } 
+} 
 
-  const deletePost = async (id: number) => {
+  const deletePost = async (_id: string) => {
     try {
-        await fetch('http://localhost:3001/api/posts/' + id, {
+        await fetch('http://localhost:3001/api/posts/' + _id, {
           method: 'DELETE',
         });
     } catch (error) {
         console.error(error);
     }
-  }
+}

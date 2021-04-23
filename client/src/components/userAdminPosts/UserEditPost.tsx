@@ -28,7 +28,7 @@ const validateMessages = {
   },
 };
 
-interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ _id: string }> {}
 interface State {
   post?: Post;
   buttonSaveLoading: boolean;
@@ -45,14 +45,14 @@ class EditPost extends Component<Props, State> {
 
   };
   async componentDidMount() {
-    const post = await getPost(Number((this.props.match.params as any).id));
+    const post = await getPost((this.props.match.params as any)._id);
     this.setState({ post: post });
   }
 
   onFinish = async (values: any) => {
     this.setState({ buttonSaveLoading: true });
-    await putPost(values.post, (this.props.match.params as any).id);
-    this.props.history.push('/');
+    await putPost(values.post, (this.props.match.params as any)._id);
+    this.props.history.push('/user');
     this.setState({ buttonSaveLoading: false });
   }
  
@@ -120,9 +120,9 @@ class EditPost extends Component<Props, State> {
 export default withRouter(EditPost);
 
 
-const getPost = async (id: number) => {
+const getPost = async (_id: string) => {
   try {
-      let response = await fetch('http://localhost:3001/api/posts/' + id);
+      let response = await fetch('http://localhost:3001/api/posts/' + _id);
       const data = await response.json();
       return data;
   } catch (error) {
@@ -130,9 +130,9 @@ const getPost = async (id: number) => {
   }
 }
 
-const putPost = async (post: Post, id: number) => {
+const putPost = async (post: Post, _id: string) => {
   try {
-      await fetch('http://localhost:3001/api/posts/' + id, {
+      await fetch('http://localhost:3001/api/posts/' + _id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
