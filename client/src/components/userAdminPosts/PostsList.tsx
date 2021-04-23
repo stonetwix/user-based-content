@@ -1,8 +1,7 @@
 import { Component, CSSProperties } from 'react';
-import { Link } from 'react-router-dom';
-import { Layout, Button, List, Avatar } from 'antd';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Layout, Button, List, Avatar, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
-import { posts } from '../startpage/Post';
 import SiderMenu from './SiderMenu';
 
 const { Content } = Layout;
@@ -10,23 +9,45 @@ const { Content } = Layout;
 export interface Post {
     id: number
     title: string
-    userName: string
+    author: string
     date: string
     text: string
     imageUrl: string
   }
+
+  interface Props extends RouteComponentProps<{ id: string }> {}
+ 
 interface State {
-    posts?: Post []
+    posts?: Post [];
+    buttonDeleteLoading: boolean;
   }
-class PostsListUser extends Component < {}, State> {
+
+
+const successDelete = () => {
+    message.success('The product has been deleted', 3);
+  };
+class PostsListUser extends Component <Props, State> {
 
     state: State ={
-        posts: []
+        posts: [],
+        buttonDeleteLoading: false
       }
       async componentDidMount() {
         const posts = await getPosts();
         this.setState({ posts: posts });
     }
+
+    componentWillUnmount() {
+        this.setState({ posts: undefined });
+      }
+
+    handleDelete = async (id: number) => {
+        this.setState({ buttonDeleteLoading: true });
+        await deletePost(id);
+        this.props.history.push('/');
+        this.setState({ buttonDeleteLoading: false });
+      }
+    
     render () {
         return (
             <Layout style={{ background: '#fff' }}>
@@ -49,9 +70,10 @@ class PostsListUser extends Component < {}, State> {
                                     </Button>
                                 </Link>, 
                                 <Button key="delete-post" 
-                                onClick={() => console.log('delete-clicked')}
-                                style={deleteStyle}
+                                onClick={() => {this.handleDelete(Number((this.props.match.params as any).id)); successDelete();}}                                 style={deleteStyle}
                                 icon={<DeleteOutlined />}
+                                loading={this.state.buttonDeleteLoading}
+
                                 >
                                     delete
                                 </Button>]}
@@ -95,9 +117,19 @@ const editStyle: CSSProperties = {
 
 const getPosts = async () => {
     try {
-        let response = await fetch('http://localhost:3001/api/posts');
+        let response = await fetch('http://localhost:3001/api/posts/');
         const data = await response.json();
         return data;
+    } catch (error) {
+        console.error(error);
+    }
+  } 
+
+  const deletePost = async (id: number) => {
+    try {
+        await fetch('http://localhost:3001/api/posts/' + id, {
+          method: 'DELETE',
+        });
     } catch (error) {
         console.error(error);
     }
