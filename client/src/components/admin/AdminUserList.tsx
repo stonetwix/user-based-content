@@ -13,24 +13,7 @@ export interface User {
 
 const { Content } = Layout;
 
-export const users: User[] = [{
-    id: 1,
-    userName: 'User Name 1',
-    email: 'info@hejhej1.com',
-    role: 'publisher',
-},
-{
-    id: 2,
-    userName: 'User Name 2',
-    email: 'info@hejhej2.com',
-    role: 'publisher',
-},
-{
-    id: 3,
-    userName: 'User Name 3',
-    email: 'info@hejhej3.com',
-    role: 'admin',
-}];
+
 
 interface State {
     users?: User []
