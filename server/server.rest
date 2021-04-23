@@ -3,7 +3,7 @@ GET http://localhost:3001/api/posts
 
 ###
 
-GET http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
+GET http://localhost:3001/api/posts/608284b69b8a4daa9ba3a99b
 
 ###
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
+PUT http://localhost:3001/api/posts/608170c0e294663b7042620c
 Content-Type: application/json
 
 {
@@ -33,7 +33,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/posts/60816a6deeebb63a3dce8d52
+DELETE http://localhost:3001/api/posts/60816b10eeebb63a3dce8d53
 
 ###
 
@@ -52,7 +52,8 @@ Content-Type: application/json
 {   
     "userName": "New User",
     "email": "info@hejhej1.com",
-    "role": "publisher"
+    "role": "publisher",
+    "password": "123456"
 }
 
 ###

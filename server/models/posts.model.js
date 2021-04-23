@@ -8,6 +8,6 @@ const postSchema = new mongoose.Schema({
     imageUrl: { type: String, required: true }
 });
 
-const PostModel = mongoose.model('traveler', postSchema);
+const PostModel = mongoose.model('Post', postSchema);
 
 module.exports = PostModel;
