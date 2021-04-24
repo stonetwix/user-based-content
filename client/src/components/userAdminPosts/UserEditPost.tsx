@@ -103,7 +103,6 @@ class EditPost extends Component<Props, State> {
                   onClick={() => {console.log('Post updated'); successSave();}} 
                   htmlType="submit"
                   loading={this.state.buttonSaveLoading}
-
                 >
                   Save
                 </Button>
@@ -122,7 +121,7 @@ export default withRouter(EditPost);
 
 const getPost = async (_id: string) => {
   try {
-      let response = await fetch('http://localhost:3001/api/posts/' + _id);
+      let response = await fetch('/api/posts/' + _id);
       const data = await response.json();
       return data;
   } catch (error) {
@@ -132,7 +131,7 @@ const getPost = async (_id: string) => {
 
 const putPost = async (post: Post, _id: string) => {
   try {
-      await fetch('http://localhost:3001/api/posts/' + _id, {
+      await fetch('/api/posts/' + _id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,8 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { Layout, Button, List, Avatar, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import SiderMenu from './SiderMenu';
+import { User } from '../admin/AdminUserList';
+import userEvent from '@testing-library/user-event';
 
 const { Content } = Layout;
 
@@ -19,7 +21,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
  
 interface State {
     posts?: Post[];
-    buttonDeleteLoading: boolean;
+    //user?: User;
 }
 
 const successDelete = () => {
@@ -29,11 +31,12 @@ class PostsListUser extends Component <Props, State> {
 
     state: State ={
         posts: [],
-        buttonDeleteLoading: false
+        //user: undefined,
     }
     
     async componentDidMount() {
         const posts = await getPosts();
+        //const user = await getUser
         this.setState({ posts: posts });
     }
 
@@ -49,6 +52,7 @@ class PostsListUser extends Component <Props, State> {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                        <h1>Welcome {}</h1>
                     <Link to={'/user/add-new-post'}> 
                         <Button type="primary" 
                             icon={<PlusCircleOutlined />} 
@@ -78,7 +82,6 @@ class PostsListUser extends Component <Props, State> {
                                     onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
                                     style={deleteStyle}
                                     icon={<DeleteOutlined />}
-                                    loading={this.state.buttonDeleteLoading}
                                 >
                                     delete
                                 </Button>]}
@@ -122,7 +125,9 @@ const editStyle: CSSProperties = {
 
 const getPosts = async () => {
     try {
-        let response = await fetch('http://localhost:3001/api/posts/');
+        let response = await fetch('/api/posts/', {
+            credentials: 'include',
+        });
         const data = await response.json();
         return data;
     } catch (error) {
@@ -132,8 +137,9 @@ const getPosts = async () => {
 
   const deletePost = async (_id: string) => {
     try {
-        await fetch('http://localhost:3001/api/posts/' + _id, {
+        await fetch('/api/posts/' + _id, {
           method: 'DELETE',
+          credentials: 'include',
         });
     } catch (error) {
         console.error(error);

@@ -71,7 +71,7 @@ class Register extends Component {
 
             <Form.Item
               label="E-mail"
-              name="E-mail"
+              name="email"
               rules={[
                 {
                   required: true,

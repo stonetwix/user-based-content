@@ -76,7 +76,7 @@ const titleStyle: CSSProperties = {
 
  const getPost = async (_id: string) => {
     try {
-        let response = await fetch('http://localhost:3001/api/posts/' + _id);
+        let response = await fetch('/api/posts/' + _id);
         const data = await response.json();
         return data;
     } catch (error) {

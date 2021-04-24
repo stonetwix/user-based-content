@@ -21,10 +21,11 @@ const tailLayout = {
 class LogIn extends Component {
 
   handleLogInClick = (history: any) => {
-    history.push('/user');
+    //history.push('/user');
   }
 
   onFinish = (values: any) => {
+    login(values.email, values.password);
     console.log("Success:", values);
   };
 
@@ -57,7 +58,7 @@ class LogIn extends Component {
           >
             <Form.Item 
               label="E-mail" 
-              name="E-mail"
+              name="email"
               rules={[
                 {
                   required: true,
@@ -115,3 +116,21 @@ const buttonStyle: CSSProperties = {
 };
 
 export default LogIn;
+
+const login = async (email: string, password: string) => {
+  try {
+      await fetch('/api/login/', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        })
+      });
+  } catch (error) {
+      console.error(error);
+  }
+}

@@ -13,8 +13,6 @@ export interface User {
 
 const { Content } = Layout;
 
-
-
 interface State {
     users?: User []
   }
@@ -107,7 +105,7 @@ const editStyle: CSSProperties = {
 
 const getUsers = async () => {
     try {
-        let response = await fetch('http://localhost:3001/api/users');
+        let response = await fetch('/api/users');
         const data = await response.json();
         return data;
     } catch (error) {

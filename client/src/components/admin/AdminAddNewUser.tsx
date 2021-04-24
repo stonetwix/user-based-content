@@ -104,25 +104,12 @@ class AddNewUser extends Component<Props, State> {
   }
 }
 
-const ContainerStyle: CSSProperties = {
-  display: "flex",
-  justifyContent: "space-around",
-  alignItems: "space-around",
-  width: "70%",
-  margin: "auto",
-};
-  
-const columnStyle: CSSProperties = {
-  marginTop: "10rem",
-  paddingBottom: "8rem",
-};
-
 export default withRouter(AddNewUser); 
 
 
 const addNewUser = async (user: User) => {
   try {
-      await fetch('http://localhost:3001/api/users', {
+      await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

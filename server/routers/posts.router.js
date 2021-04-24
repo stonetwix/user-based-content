@@ -1,8 +1,8 @@
 const express = require('express');
 const postsRouter = express.Router();
 const PostModel = require('../models/posts.model');
-
 const { body, validationResult } = require('express-validator');
+const auth = require('../auth');
 
 //Endpoints
 postsRouter.get('/api/posts', async (req, res) => {
@@ -19,7 +19,7 @@ postsRouter.get('/api/posts/:id', async (req, res) => {
     }
 });
 
-postsRouter.post('/api/posts', 
+postsRouter.post('/api/posts',
     body('title').not().isEmpty(),
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
@@ -35,11 +35,13 @@ postsRouter.post('/api/posts',
     }
 );
 
-postsRouter.put('/api/posts/:id', 
+postsRouter.put('/api/posts/:id',
+    auth.secure,
     body('title').not().isEmpty(),
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {
+        console.log(req.session.email);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array()});

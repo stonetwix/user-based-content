@@ -106,7 +106,7 @@ export default withRouter(UserAddNewPost);
 
 const addPost = async (post: Post) => {
   try {
-      await fetch('http://localhost:3001/api/posts', {
+      await fetch('/api/posts', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
