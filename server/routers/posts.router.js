@@ -30,7 +30,6 @@ postsRouter.post('/api/posts',
         }
         const post = req.body;
         post.author = 'user.userName';
-        post.date = new Date().toISOString().slice(0, 10);
         const newPost = await PostModel.create(req.body);
         res.status(201).json(newPost);
     }
