@@ -1,6 +1,7 @@
 import { Form, Input, Button, Row, Col } from "antd";
-import { CSSProperties, Component } from "react";
+import { CSSProperties, Component, ContextType } from "react";
 import { Route } from 'react-router-dom';
+import { UserContext } from "../context";
 
 const layout = {
   labelCol: {
@@ -19,14 +20,19 @@ const tailLayout = {
 };
 
 class LogIn extends Component {
+  context!: ContextType<typeof UserContext>
+  static contextType = UserContext;
 
-  handleLogInClick = (history: any) => {
-    //history.push('/user');
-  }
-
-  onFinish = (values: any) => {
-    login(values.email, values.password);
-    console.log("Success:", values);
+  onFinish = async (values: any, history: any) => {
+    const { setUser } = this.context;
+    const user = await login(values.email, values.password);
+    if (user) {
+      setUser(user.username, user.role === 'admin');
+      console.log("Success:", values);
+      history.push('/user');
+    } else {
+      alert('Not valid e-mail or password')
+    }
   };
 
   onFinishFailed = (errorInfo: any) => {
@@ -44,56 +50,54 @@ class LogIn extends Component {
               fontWeight: "bold",
             }}
           >
-            LOG IN{" "}
+            LOG IN
           </h1>
-
-          <Form
-            {...layout}
-            name="basic"
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={this.onFinish}
-            onFinishFailed={this.onFinishFailed}
-          >
-            <Form.Item 
-              label="E-mail" 
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}>
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
+          <Route render={({ history }) => (
+            <Form
+              {...layout}
+              name="basic"
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={(values) => this.onFinish(values, history)}
+              onFinishFailed={this.onFinishFailed}
             >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item 
+                label="E-mail" 
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}>
+                <Input />
+              </Form.Item>
 
-            <Form.Item {...tailLayout}>
-              <Route render={({ history }) => (
-                <Button
-                  type="primary"
-                  htmlType="submit" 
-                  style={buttonStyle}
-                  onClick={() => this.handleLogInClick(history)}
-                >
-                  Log in
-                </Button>
-              )}/>
-            </Form.Item>
-          </Form>
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                  <Button
+                    type="primary"
+                    htmlType="submit" 
+                    style={buttonStyle}
+                  >
+                    Log in
+                  </Button>
+              </Form.Item>
+            </Form>
+          )}/>
         </Col>
       </Row>
     );
@@ -119,9 +123,8 @@ export default LogIn;
 
 const login = async (email: string, password: string) => {
   try {
-      await fetch('/api/login/', {
+      let response = await fetch('/api/login/', {
         method: 'POST',
-        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -130,6 +133,10 @@ const login = async (email: string, password: string) => {
           password: password,
         })
       });
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }

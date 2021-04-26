@@ -6,7 +6,6 @@ const bcrypt = require('bcrypt');
 const { body, validationResult } = require('express-validator');
 
 
-
 //Endpoints
 userRouter.get('/api/users', async (req, res) => {
     const users = await UserModel.find({});
@@ -23,7 +22,7 @@ userRouter.get('/api/users/:id', async (req, res) => {
 });
 
 userRouter.post('/api/users', 
-    body('userName').not().isEmpty(),
+    body('username').not().isEmpty(),
     body('email').isEmail().normalizeEmail(),
     body('password').not().isEmpty(),
     async (req, res) => {
@@ -33,7 +32,7 @@ userRouter.post('/api/users',
         }
         const user = req.body;
 
-        const userExists = await UserModel.exists({ 'userName': user.userName });
+        const userExists = await UserModel.exists({ 'username': user.username });
          if (userExists) {
             return res.status(400).json('User name already exists');
         }
@@ -51,19 +50,19 @@ userRouter.post('/api/login',
     async (req, res) => {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ 'email': email });
-        console.log(user)
+        console.log(user);
         if (!user || !await bcrypt.compare(password, user.password)) {
             res.status(401).json('Incorrect e-mail or password');
             return;
         }
         req.session.email = email;
         req.session.role = user.role;
-        res.status(204).json({});
+        res.status(200).json(user);
     }
-)
+);
 
 userRouter.put('/api/users/:id', 
-    body('userName').not().isEmpty(),
+    body('username').not().isEmpty(),
     body('email').isEmail().normalizeEmail(),
     body('role').not().isEmpty(),
     body('password').not().isEmpty(),

@@ -50,9 +50,8 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {   
-    "userName": "New User33",
+    "username": "New User",
     "email": "info@hejhej1.com",
-    "role": "publisher",
     "password": "123456"
 }
 

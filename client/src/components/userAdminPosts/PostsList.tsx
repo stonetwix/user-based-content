@@ -4,7 +4,6 @@ import { Layout, Button, List, Avatar, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import SiderMenu from './SiderMenu';
 import { User } from '../admin/AdminUserList';
-import userEvent from '@testing-library/user-event';
 
 const { Content } = Layout;
 
@@ -52,7 +51,7 @@ class PostsListUser extends Component <Props, State> {
                 <SiderMenu />
                 <Content style={{ margin: '8rem', background: '#fff' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                        <h1>Welcome {}</h1>
+                        <h1 style={{ marginBottom: '2rem' }}>Welcome Username{}</h1>
                     <Link to={'/user/add-new-post'}> 
                         <Button type="primary" 
                             icon={<PlusCircleOutlined />} 

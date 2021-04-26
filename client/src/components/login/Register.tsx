@@ -20,12 +20,10 @@ const tailLayout = {
 
 class Register extends Component {
 
-  handleRegisterClick = (history: any) => {
-    history.push('/registersuccess');
-  }
-
-  onFinish = (values: any) => {
+  onFinish = (values: any, history: any) => {
+    register(values.username, values.email, values.password);
     console.log("Success:", values);
+    history.push('/registersuccess');
   };
   
   onFinishFailed = (errorInfo: any) => {
@@ -46,95 +44,95 @@ class Register extends Component {
           <h3 style={{ display: "flex", justifyContent: "center", marginBottom: '2rem', color: '#888' }}>
             Sign up here
           </h3>
-
-          <Form
-            {...layout}
-            name="basic"
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={this.onFinish}
-            onFinishFailed={this.onFinishFailed}
-          >
-            <Form.Item 
-              label="User Name" 
-              name="username"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your user name",
-                },
-              ]}
+          <Route render={({ history }) => (
+            <Form
+              {...layout}
+              name="basic"
+              initialValues={{
+                remember: true,
+              }}
+              onFinish={(values) => this.onFinish(values, history)}
+              onFinishFailed={this.onFinishFailed}
             >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="E-mail"
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your e-mail!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Please input your password!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-            
-            <Form.Item
-              name="confirm"
-              label="Confirm Password"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "The two passwords that you entered do not match!"
-                      )
-                    );
+              <Form.Item 
+                label="User Name" 
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your user name",
                   },
-                }),
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+                ]}
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item {...tailLayout}>
-              <Route render={({ history }) => (
-                <Button
-                  type="primary"
-                  htmlType="submit" 
-                  style={buttonStyle}
-                  onClick={() => this.handleRegisterClick(history)}
-                >
-                  Sign up
-                </Button>
-              )}/>
-            </Form.Item>
-          </Form>
+              <Form.Item
+                label="E-mail"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your e-mail!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                label="Password"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+              
+              <Form.Item
+                name="confirm"
+                label="Confirm Password"
+                dependencies={["password"]}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "The two passwords that you entered do not match!"
+                        )
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item {...tailLayout}>
+                
+                  <Button
+                    type="primary"
+                    htmlType="submit" 
+                    style={buttonStyle}
+                    //onClick={() => this.handleRegisterClick(history)}
+                  >
+                    Sign up
+                  </Button>
+              </Form.Item>
+            </Form>
+          )}/>
         </Col>
       </Row>
     );
@@ -155,3 +153,20 @@ const containerStyle: CSSProperties = {
     fontWeight: "bold",
   };
   
+  const register = async (username: string, email: string, password: string) => {
+    try {
+        await fetch('/api/users/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+          })
+        });
+    } catch (error) {
+        console.error(error);
+    }
+  }
