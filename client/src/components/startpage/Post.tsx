@@ -3,7 +3,7 @@ import { List, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 
 export interface Post {
-  id: number
+  _id: string
   title: string
   author: string
   date: string
@@ -13,7 +13,7 @@ export interface Post {
 
 
 interface State {
-  posts?: Post []
+  posts?: Post[]
 }
 class StartPagePost extends Component < {}, State> {
 
@@ -43,7 +43,7 @@ render() {
                   />   
                 }
               >
-                <Link to={'/post/' + item.id}>
+                <Link to={'/post/' + item._id}>
                   <List.Item.Meta
                       title={item.title}
                       description={item.text.substring(0, 300) + '...'}

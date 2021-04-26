@@ -20,14 +20,14 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={StartPageView} />
-        <Route path="/post/:id" component={PostDetail} />
+        <Route path="/post/:_id" component={PostDetail} />
         <Route path="/login" component={LogInView} />
         <Route exact path="/user" component={PostsListUser} />
         <Route path="/user/add-new-post" component={UserAddNewPost} />
-        <Route path="/edit-post/:id" component={EditPost} />
+        <Route path="/edit-post/:_id" component={EditPost} />
         <Route path="/registersuccess" component={RegisterSuccess} />
         <Route path="/admin/users" component={AdminUserList} />
-        <Route path="/admin/edit/user/:id" component={AdminEditUser} />
+        <Route path="/admin/edit/user/:_id" component={AdminEditUser} />
         <Route path="/admin/adduser" component={AdminAddNewUser} />
       </Switch>
   </Router>

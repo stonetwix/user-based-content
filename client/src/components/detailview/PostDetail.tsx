@@ -3,13 +3,14 @@ import { Row, Col } from 'antd';
 import { Post} from '../startpage/Post';
 import ErrorPage from '../ErrorPage';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 interface State {
     post?: Post;
 }
 
 interface Props extends RouteComponentProps {
-    id: number
+    _id: string
 }
 
 class PostDetail extends Component<Props, State> {
@@ -19,7 +20,7 @@ class PostDetail extends Component<Props, State> {
     }
 
     async componentDidMount() {
-        const post = await getPost(Number((this.props.match.params as any).id));
+        const post = await getPost((this.props.match.params as any)._id);
         this.setState({post: post})
     }
 
@@ -30,12 +31,13 @@ class PostDetail extends Component<Props, State> {
         if (!this.state.post) {
             return <ErrorPage />
         }
+        const date = dayjs(this.state.post.date).format('YYYY-MM-DD');
         return (
             <Row style={containerStyle}>
                 <Col lg={{span: 24}} style={columnStyle}>
                     <img src={this.state.post.imageUrl} alt={this.state.post.title}/>          
                     <h1 style={titleStyle}>{this.state.post.title}</h1>
-                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{this.state.post.date}</h3>
+                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{date}</h3>
                     <p>{this.state.post.text}</p>
                 </Col>
             </Row>
@@ -72,9 +74,9 @@ const titleStyle: CSSProperties = {
      textTransform: 'uppercase',
  }
 
- const getPost = async (id: number) => {
+ const getPost = async (_id: string) => {
     try {
-        let response = await fetch('http://localhost:3001/api/posts/' + id);
+        let response = await fetch('http://localhost:3001/api/posts/' + _id);
         const data = await response.json();
         return data;
     } catch (error) {
