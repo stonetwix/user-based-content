@@ -31,7 +31,6 @@ const validateMessages = {
 interface Props extends RouteComponentProps<{ _id: string }> {}
 interface State {
   post?: Post;
-  buttonSaveLoading: boolean;
 }
 
 const successSave = () => {
@@ -41,7 +40,6 @@ const successSave = () => {
 class EditPost extends Component<Props, State> {
   state: State = {
     post: undefined,
-    buttonSaveLoading: false,
 
   };
   async componentDidMount() {
@@ -50,10 +48,8 @@ class EditPost extends Component<Props, State> {
   }
 
   onFinish = async (values: any) => {
-    this.setState({ buttonSaveLoading: true });
     await putPost(values.post, (this.props.match.params as any)._id);
     this.props.history.push('/user');
-    this.setState({ buttonSaveLoading: false });
   }
  
   componentWillUnmount() {
@@ -102,7 +98,6 @@ class EditPost extends Component<Props, State> {
                   type="primary"
                   onClick={() => {console.log('Post updated'); successSave();}} 
                   htmlType="submit"
-                  loading={this.state.buttonSaveLoading}
                 >
                   Save
                 </Button>

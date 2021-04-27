@@ -1,4 +1,4 @@
-import { Component, CSSProperties } from "react";
+import { Component } from "react";
 import { Form, Input, Button, message, Select, Layout } from "antd";
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import SiderMenu from '../userAdminPosts/SiderMenu';
@@ -26,13 +26,12 @@ const validateMessages = {
   },
 };
 
-interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ _id: string }> {}
 
 
-  interface State {
- user: User | undefined;
-  buttonSaveLoading: boolean;
- }
+interface State {
+  user: User | undefined;
+}
 
 const success = () => {
   message.success('The user has been added', 3);
@@ -40,14 +39,11 @@ const success = () => {
 class AddNewUser extends Component<Props, State> {
   state: State = {
     user: undefined,
-    buttonSaveLoading: false,
   };
 
   onFinish = async (values: any) => {
-    this.setState({ buttonSaveLoading: true });
     await addNewUser(values.user);
     this.props.history.push('/admin/users');
-    this.setState({ buttonSaveLoading: false });
   };
 
 
@@ -69,7 +65,7 @@ class AddNewUser extends Component<Props, State> {
                         validateMessages={validateMessages}
                     >
                         <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD NEW USER</h1>
-                        <Form.Item name={["user", "userName"]} label="Username: " rules={[{ required: true }]}>
+                        <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
 
@@ -83,6 +79,18 @@ class AddNewUser extends Component<Props, State> {
                             <Select.Option value="admin">Admin</Select.Option>
                         </Select>
                         </Form.Item>
+                        <Form.Item
+                          label="Password"
+                          name={["user", "password"]}
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please input your password!",
+                            },
+                          ]}
+                        >
+                          <Input.Password />
+                        </Form.Item>
 
                         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -90,7 +98,6 @@ class AddNewUser extends Component<Props, State> {
                                 type="primary"
                                 onClick={() => {console.log('User added'); success();}} 
                                 htmlType="submit" 
-                                loading={this.state.buttonSaveLoading}
                                 >
                                 Save
                                 </Button>

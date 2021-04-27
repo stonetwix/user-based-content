@@ -28,12 +28,10 @@ const validateMessages = {
   },
 };
 
-interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ _id: string }> {}
 
 interface State {
   user?: User;
-  buttonSaveLoading: boolean;
-
 }
 
 const successSave = () => {
@@ -43,26 +41,23 @@ const successSave = () => {
 class AdminEditUser extends Component<Props, State> {
   state: State = {
     user: undefined,
-    buttonSaveLoading: false,
-
   };
 
 
   async componentDidMount() {
-    const user = await getUser(Number((this.props.match.params as any).id));
+    const user = await getUser((this.props.match.params as any)._id);
     this.setState({ user: user });
   }
+
   onFinish = async (values: any) => {
-    this.setState({ buttonSaveLoading: true });
-    await putUser(values.user, (this.props.match.params as any).id);
+    await putUser(values.user, (this.props.match.params as any)._id);
     this.props.history.push('/admin/users');
-    this.setState({ buttonSaveLoading: false });
   }
  
 
-  componentWillUnmount() {
-    this.setState({ user: undefined });
-  }
+  // componentWillUnmount() {
+  //   this.setState({ user: undefined });
+  // }
 
   render() {
     const { user } = this.state;
@@ -82,14 +77,14 @@ class AdminEditUser extends Component<Props, State> {
               validateMessages={validateMessages}
               initialValues={{
                 user: {
-                  userName: this.state.user?.userName,
+                  username: this.state.user?.username,
                   email: this.state.user?.email,
                   role: this.state.user?.role,
                 }
               }}
             >
               <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>EDIT USER</h1>
-              <Form.Item name={["user", "userName"]} label="Username: " rules={[{ required: true }]}>
+              <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
                 <Input />
               </Form.Item>
 
@@ -110,8 +105,6 @@ class AdminEditUser extends Component<Props, State> {
                     type="primary"
                     onClick={() => {console.log('Post updated'); successSave();}} 
                     htmlType="submit" 
-                    loading={this.state.buttonSaveLoading}
-
                   >
                     Save
                   </Button>
@@ -127,9 +120,9 @@ class AdminEditUser extends Component<Props, State> {
 
 export default withRouter(AdminEditUser);
 
-const getUser = async (id: number) => {
+const getUser = async (_id: string) => {
   try {
-      let response = await fetch('/api/users/' + id);
+      let response = await fetch('/api/users/' + _id);
       const data = await response.json();
       return data;
   } catch (error) {
@@ -137,9 +130,9 @@ const getUser = async (id: number) => {
   }
 }
 
-const putUser = async (user: User, id: number) => {
+const putUser = async (user: User, _id: string) => {
   try {
-      await fetch('/api/users/' + id, {
+      await fetch('/api/users/' + _id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
