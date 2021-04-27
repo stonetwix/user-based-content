@@ -29,7 +29,7 @@ class LogIn extends Component {
     if (user) {
       setUser(user.username, user.role === 'admin');
       console.log("Success:", values);
-      history.push('/user');
+      history.push('/user/');
     } else {
       alert('Not valid e-mail or password')
     }

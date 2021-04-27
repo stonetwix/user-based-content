@@ -26,14 +26,14 @@ function App() {
           <Route path="/login" component={LogInView} />
           <Route exact path="/user" component={PostsListUser} />
           <Route path="/user/add-new-post" component={UserAddNewPost} />
-          <Route path="/edit-post/:_id" component={EditPost} />
+          <Route path="/user/edit-post/:_id" component={EditPost} />
           <Route path="/registersuccess" component={RegisterSuccess} />
           <Route path="/admin/users" component={AdminUserList} />
           <Route path="/admin/edit/user/:_id" component={AdminEditUser} />
           <Route path="/admin/adduser" component={AdminAddNewUser} />
         </Switch>
-    </Router>
-  </UserProvider>
+      </Router>
+    </UserProvider>
   );
 }
 

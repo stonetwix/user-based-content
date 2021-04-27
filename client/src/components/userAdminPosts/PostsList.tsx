@@ -71,7 +71,7 @@ class PostsListUser extends Component <Props, State> {
                                 dataSource={this.state.posts}
                                 renderItem={item => (
                                 <List.Item actions={[
-                                    <Link to={'/edit-post/' + item._id}>  
+                                    <Link to={'/user/edit-post/' + item._id}>  
                                         <Button 
                                         key="edit-post" 
                                         onClick={() => console.log('edit-clicked')}
