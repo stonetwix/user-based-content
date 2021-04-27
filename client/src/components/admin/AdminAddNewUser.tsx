@@ -54,59 +54,59 @@ class AddNewUser extends Component<Props, State> {
 
   render() {
     return (
-        <Layout style={{ background: '#fff' }}>
-            <SiderMenu />
-            <Content style={{ margin: '8rem', background: '#fff' }}>
-                <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                    <Form
-                        {...layout}
-                        name="nest-messages"
-                        onFinish={this.onFinish}
-                        validateMessages={validateMessages}
-                    >
-                        <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD NEW USER</h1>
-                        <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
+      <Layout style={{ background: '#fff' }}>
+          <SiderMenu />
+          <Content style={{ margin: '8rem', background: '#fff' }}>
+              <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                  <Form
+                      {...layout}
+                      name="nest-messages"
+                      onFinish={this.onFinish}
+                      validateMessages={validateMessages}
+                  >
+                      <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD NEW USER</h1>
+                      <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
+                          <Input />
+                      </Form.Item>
 
-                        <Form.Item name={["user", "email"]} label="E-mail: " rules={[{ required: true }]}>
-                            <Input />
-                        </Form.Item>
-                        
-                        <Form.Item name={["user", "role"]} label="Role: " rules={[{ required: true }]}>
-                        <Select defaultValue='Publisher'>
-                            <Select.Option value="publisher">Publisher</Select.Option>
-                            <Select.Option value="admin">Admin</Select.Option>
-                        </Select>
-                        </Form.Item>
-                        <Form.Item
-                          label="Password"
-                          name={["user", "password"]}
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please input your password!",
-                            },
-                          ]}
-                        >
-                          <Input.Password />
-                        </Form.Item>
+                      <Form.Item name={["user", "email"]} label="E-mail: " rules={[{ required: true }]}>
+                          <Input />
+                      </Form.Item>
+                      
+                      <Form.Item name={["user", "role"]} label="Role: " rules={[{ required: true }]}>
+                      <Select>
+                          <Select.Option value="publisher">Publisher</Select.Option>
+                          <Select.Option value="admin">Admin</Select.Option>
+                      </Select>
+                      </Form.Item>
+                      <Form.Item
+                        label="Password"
+                        name={["user", "password"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your password!",
+                          },
+                        ]}
+                      >
+                        <Input.Password />
+                      </Form.Item>
 
-                        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                            <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                <Button 
-                                type="primary"
-                                onClick={() => {console.log('User added'); success();}} 
-                                htmlType="submit" 
-                                >
-                                Save
-                                </Button>
-                            </div>
-                        </Form.Item>
-                    </Form>
-                </div>
-            </Content>
-        </Layout>
+                      <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
+                          <div style={{ display: "flex", justifyContent: "space-between" }}>
+                              <Button 
+                              type="primary"
+                              onClick={() => {console.log('User added'); success();}} 
+                              htmlType="submit" 
+                              >
+                              Save
+                              </Button>
+                          </div>
+                      </Form.Item>
+                  </Form>
+              </div>
+          </Content>
+      </Layout>
     )
   }
 }
