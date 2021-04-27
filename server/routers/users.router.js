@@ -55,6 +55,7 @@ userRouter.post('/api/login',
             res.status(401).json('Incorrect e-mail or password');
             return;
         }
+        req.session.username = user.username;
         req.session.email = email;
         req.session.role = user.role;
         res.status(200).json(user);

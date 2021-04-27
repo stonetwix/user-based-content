@@ -37,21 +37,16 @@ const successAdd = () => {
 interface Props extends RouteComponentProps<{ id: string }> {}
 interface State {
   post: Post | undefined;
-  buttonSaveLoading: boolean;  
   }
 class UserAddNewPost extends Component<Props, State>{
  
   state: State = {
     post: undefined,
-    buttonSaveLoading: false,
-
   };
 
 onFinish = async (values: any) => {
-  this.setState({ buttonSaveLoading: true });
   await addPost(values.post);
   this.props.history.push('/user');
-  this.setState({ buttonSaveLoading: false });
 };
 
 // componentWillUnmount() {
@@ -88,8 +83,7 @@ onFinish = async (values: any) => {
               <Button 
                 type="primary"
                 onClick={() => {console.log('Post added'); successAdd();}} 
-                htmlType="submit" 
-                loading={this.state.buttonSaveLoading}
+                htmlType="submit"
               >
                 Save
               </Button>

@@ -33,13 +33,21 @@ class Navbar extends Component {
               </Link>
             </Menu.Item> :
             <Route render={({ history }) => (
+              <>
               <Menu.Item key="2">
+              <Link to='/user' style={{ color: 'white', marginRight: '3rem' }}> 
+                Admin
+              </Link>
+            </Menu.Item>
+              <Menu.Item key="3">
                 <Button
                   onClick={() => this.handleLogout(history)}
+                  style={{ borderRadius: '10rem' }}
                 > 
                   Log out 
                 </Button>
               </Menu.Item>
+              </>
             )}/>;
           return (
           <Header style={layoutStyle}>

@@ -20,16 +20,17 @@ postsRouter.get('/api/posts/:id', async (req, res) => {
 });
 
 postsRouter.post('/api/posts',
+    auth.secure,
     body('title').not().isEmpty(),
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()});
+            return res.status(400).json({ errors: errors.array() });
         }
         const post = req.body;
-        post.author = 'user.userName';
+        post.author = req.session.username;
         const newPost = await PostModel.create(req.body);
         res.status(201).json(newPost);
     }
