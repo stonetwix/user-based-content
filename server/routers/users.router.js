@@ -66,7 +66,6 @@ userRouter.put('/api/users/:id',
     body('username').not().isEmpty(),
     body('email').isEmail().normalizeEmail(),
     body('role').not().isEmpty(),
-    body('password').not().isEmpty(),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

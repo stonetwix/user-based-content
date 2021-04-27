@@ -26,11 +26,11 @@ const validateMessages = {
   },
 };
 
-interface Props extends RouteComponentProps<{ id: string }> {}
+interface Props extends RouteComponentProps<{ _id: string }> {}
 
 
   interface State {
- user: User | undefined;
+  user: User | undefined;
   buttonSaveLoading: boolean;
  }
 
@@ -51,9 +51,9 @@ class AddNewUser extends Component<Props, State> {
   };
 
 
-  componentWillUnmount() {
-    this.setState({ user: undefined });
-  };
+  // componentWillUnmount() {
+  //   this.setState({ user: undefined });
+  // };
 
 
   render() {
@@ -69,12 +69,16 @@ class AddNewUser extends Component<Props, State> {
                         validateMessages={validateMessages}
                     >
                         <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>ADD NEW USER</h1>
-                        <Form.Item name={["user", "userName"]} label="Username: " rules={[{ required: true }]}>
+                        <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
 
                         <Form.Item name={["user", "email"]} label="E-mail: " rules={[{ required: true }]}>
                             <Input />
+                        </Form.Item>
+
+                        <Form.Item name={["user", "password"]} label="Password: " rules={[{ required: true }]}>
+                          <Input.Password />
                         </Form.Item>
                         
                         <Form.Item name={["user", "role"]} label="Role: " rules={[{ required: true }]}>
