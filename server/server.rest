@@ -24,7 +24,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/6082e658d153700a81ce5553
+PUT http://localhost:3001/api/posts/6087e24ba00db8a590cb03e2
 Content-Type: application/json
 
 {
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/posts/60840a153789c57270f81cb5
+DELETE http://localhost:3001/api/posts/6087e24ba00db8a590cb03e2
 
 ###
 

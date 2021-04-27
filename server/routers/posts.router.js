@@ -10,7 +10,9 @@ postsRouter.get('/api/all_posts', async (req, res) => {
     res.status(200).json(posts);
 });
 
-postsRouter.get('/api/posts', async (req, res) => {
+postsRouter.get('/api/posts', 
+    auth.secure,
+    async (req, res) => {
     if (req.session.role === 'admin') {
         const posts = await PostModel.find({});
         res.status(200).json(posts);

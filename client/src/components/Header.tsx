@@ -16,7 +16,7 @@ class Navbar extends Component {
     const ok = await logout();
     if (ok) {
       logoutUser();
-      history.push('/');
+      history.push('/login');
     } else {
       alert('Problem logging out, try again')
     }
