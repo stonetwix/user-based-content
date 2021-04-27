@@ -129,7 +129,7 @@ export default withRouter(AdminEditUser);
 
 const getUser = async (id: number) => {
   try {
-      let response = await fetch('http://localhost:3001/api/users/' + id);
+      let response = await fetch('/api/users/' + id);
       const data = await response.json();
       return data;
   } catch (error) {
@@ -139,7 +139,7 @@ const getUser = async (id: number) => {
 
 const putUser = async (user: User, id: number) => {
   try {
-      await fetch('http://localhost:3001/api/users/' + id, {
+      await fetch('/api/users/' + id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

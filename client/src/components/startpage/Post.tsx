@@ -88,7 +88,7 @@ const imageStyle: CSSProperties = {
 
 const getPosts = async () => {
   try {
-      let response = await fetch('http://localhost:3001/api/posts');
+      let response = await fetch('/api/posts');
       const data = await response.json();
       return data;
   } catch (error) {
