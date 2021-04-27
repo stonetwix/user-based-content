@@ -5,8 +5,8 @@ import SiderMenu from '../userAdminPosts/SiderMenu';
 import { Link } from 'react-router-dom';
 
 export interface User {
-    id: number
-    userName: string
+    _id: string
+    username: string
     email: string
     role: string
 }
@@ -24,6 +24,12 @@ class AdminUserList extends Component < {}, State>{
       }
       async componentDidMount() {
         const users= await getUsers();
+        this.setState({ users: users });
+    }
+
+    handleDelete = async (_id: string) => {
+        await deleteUser(_id);
+        const users = await getUsers();
         this.setState({ users: users });
     }
 
@@ -49,7 +55,7 @@ class AdminUserList extends Component < {}, State>{
                             dataSource={this.state.users}
                             renderItem={item => (
                             <List.Item actions={[
-                                <Link to={'/admin/edit/user/' + item.id}>
+                                <Link to={'/admin/edit/user/' + item._id}>
                                     <Button key="edit-user" 
                                     onClick={() => console.log('edit-clicked')}
                                     style={editStyle}
@@ -59,7 +65,7 @@ class AdminUserList extends Component < {}, State>{
                                     </Button>
                                 </Link>,
                                 <Button key="delete-user" 
-                                onClick={() => console.log('delete-clicked')}
+                                onClick={() => {this.handleDelete(item._id);}}                                 
                                 style={deleteStyle}
                                 icon={<DeleteOutlined />}
                                 >
@@ -67,7 +73,7 @@ class AdminUserList extends Component < {}, State>{
                                 </Button>]}
                             >
                                 <List.Item.Meta
-                                title={item.userName}
+                                title={item.username}
                                 description={'Role: ' + item.role}
                                 />
                             </List.Item>
@@ -108,6 +114,17 @@ const getUsers = async () => {
         let response = await fetch('/api/users');
         const data = await response.json();
         return data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+const deleteUser = async (_id: string) => {
+    try {
+        await fetch('/api/users/' + _id, {
+          method: 'DELETE',
+          credentials: 'include',
+        });
     } catch (error) {
         console.error(error);
     }
