@@ -3,6 +3,10 @@ GET http://localhost:3001/api/posts
 
 ###
 
+GET http://localhost:3001/api/all_posts
+
+###
+
 GET http://localhost:3001/api/posts/6082e658d153700a81ce5553
 
 ###
@@ -61,8 +65,8 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {   
-    "email": "info@hejhej1.com",
-    "password": "123456"
+    "email": "test@email.com",
+    "password": "lallalaa"
 }
 
 ###
