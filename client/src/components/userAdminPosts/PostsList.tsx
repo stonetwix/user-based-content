@@ -146,7 +146,6 @@ const getPosts = async () => {
     try {
         await fetch('/api/posts/' + _id, {
           method: 'DELETE',
-          credentials: 'include',
         });
     } catch (error) {
         console.error(error);

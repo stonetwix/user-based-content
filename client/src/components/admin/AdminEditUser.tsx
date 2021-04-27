@@ -32,8 +32,6 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 
 interface State {
   user?: User;
-  buttonSaveLoading: boolean;
-
 }
 
 const successSave = () => {
@@ -43,8 +41,6 @@ const successSave = () => {
 class AdminEditUser extends Component<Props, State> {
   state: State = {
     user: undefined,
-    buttonSaveLoading: false,
-
   };
 
 
@@ -52,17 +48,10 @@ class AdminEditUser extends Component<Props, State> {
     const user = await getUser((this.props.match.params as any)._id);
     this.setState({ user: user });
   }
-  
+
   onFinish = async (values: any) => {
-    this.setState({ buttonSaveLoading: true });
     await putUser(values.user, (this.props.match.params as any)._id);
     this.props.history.push('/admin/users');
-    this.setState({ buttonSaveLoading: false });
-  }
- 
-
-  componentWillUnmount() {
-    this.setState({ user: undefined });
   }
 
   render() {
@@ -111,8 +100,6 @@ class AdminEditUser extends Component<Props, State> {
                     type="primary"
                     onClick={() => {console.log('Post updated'); successSave();}} 
                     htmlType="submit" 
-                    loading={this.state.buttonSaveLoading}
-
                   >
                     Save
                   </Button>

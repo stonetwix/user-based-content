@@ -17,3 +17,4 @@ function secureWithRole(role) {
 }
 
 module.exports.secure = secure;
+module.exports.secureWithRole = secureWithRole;

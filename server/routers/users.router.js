@@ -2,16 +2,18 @@ const express = require('express');
 const userRouter = express.Router();
 const UserModel = require('../models/users.model');
 const bcrypt = require('bcrypt');
-const auth = require('../auth')
+const auth = require('../auth');
+
 const { body, validationResult } = require('express-validator');
 
 
 //Endpoints
-userRouter.get('/api/users', auth.secureWithRole('admin'), async (req, res) => {
+userRouter.get('/api/users', 
+    auth.secureWithRole('admin'),
+    async (req, res) => {
     const users = await UserModel.find({});
     res.status(200).json(users);
 });
-
 
 userRouter.get('/api/users/:id', async (req, res) => {
     try {

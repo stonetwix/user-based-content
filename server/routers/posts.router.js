@@ -5,22 +5,22 @@ const { body, validationResult } = require('express-validator');
 const auth = require('../auth');
 
 //Endpoints
-postsRouter.get('/api/all_posts', async (req, res) => {
-    const posts = await PostModel.find({});
+postsRouter.get('/api/allposts', async (req, res) => {
+    const posts = await PostModel.find({}).sort({'date': 'desc'});
     res.status(200).json(posts);
 });
 
-postsRouter.get('/api/posts', auth.secure, async(req, res) => {
-    if(req.session.role === 'admin'){
-        const posts = await PostModel.find({});
+postsRouter.get('/api/posts', 
+    auth.secure,
+    async (req, res) => {
+    if (req.session.role === 'admin') {
+        const posts = await PostModel.find({}).sort({'date': 'desc'});
         res.status(200).json(posts);
-    } else if(req.session.role === 'publisher') {
-        const userPosts = await PostModel.find({
-            author: req.session.username
-        }) 
+    } else if (req.session.role === 'publisher') {
+        const userPosts = await PostModel.find({author: req.session.username}).sort({'date': 'desc'});
         res.status(200).json(userPosts);
     }
-})
+});
 
 postsRouter.get('/api/posts/:id', async (req, res) => {
     try {

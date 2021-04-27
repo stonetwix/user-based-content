@@ -1,5 +1,5 @@
 import { Component, CSSProperties } from 'react';
-import { Layout, Button, List } from 'antd';
+import { Layout, Button, List, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import SiderMenu from '../userAdminPosts/SiderMenu';
 import { Link } from 'react-router-dom';
@@ -17,12 +17,17 @@ interface State {
     users?: User []
   }
 
+  const successDelete = () => {
+    message.success('The user has been deleted', 3);
+};
+
 class AdminUserList extends Component < {}, State>{
 
     state: State ={
         users: []
       }
-      async componentDidMount() {
+
+    async componentDidMount() {
         const users= await getUsers();
         this.setState({ users: users });
     }
@@ -65,7 +70,7 @@ class AdminUserList extends Component < {}, State>{
                                     </Button>
                                 </Link>,
                                 <Button key="delete-user" 
-                                onClick={() => {this.handleDelete(item._id);}}                                 
+                                onClick={() => {this.handleDelete(item._id); successDelete();}}
                                 style={deleteStyle}
                                 icon={<DeleteOutlined />}
                                 >
@@ -123,7 +128,6 @@ const deleteUser = async (_id: string) => {
     try {
         await fetch('/api/users/' + _id, {
           method: 'DELETE',
-          credentials: 'include',
         });
     } catch (error) {
         console.error(error);

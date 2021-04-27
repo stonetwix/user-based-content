@@ -3,7 +3,11 @@ GET http://localhost:3001/api/posts
 
 ###
 
-GET http://localhost:3001/api/posts/608285c1f1156216465ddb29
+GET http://localhost:3001/api/all_posts
+
+###
+
+GET http://localhost:3001/api/posts/6082e658d153700a81ce5553
 
 ###
 
@@ -20,7 +24,7 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/608285c1f1156216465ddb29
+PUT http://localhost:3001/api/posts/6087e24ba00db8a590cb03e2
 Content-Type: application/json
 
 {
@@ -33,7 +37,7 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/posts/6082992ddbe9b24dda5ff16e
+DELETE http://localhost:3001/api/posts/6087e24ba00db8a590cb03e2
 
 ###
 
@@ -42,7 +46,7 @@ GET http://localhost:3001/api/users
 
 ###
 
-GET http://localhost:3001/api/users/608285c1f1cf40287c5a9a80
+GET http://localhost:3001/api/users/6086b7432a9d1282e1fbbc64
 
 ###
 
@@ -61,19 +65,19 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {   
-    "email": "info@hejhej1.com",
-    "password": "123456"
+    "email": "test@email.com",
+    "password": "lallalaa"
 }
 
 ###
 
-PUT http://localhost:3001/api/users/608285c1f1cf40287c5a9a81
+PUT http://localhost:3001/api/users/6086ba4d2a9d1282e1fbbc66
 Content-Type: application/json
 
 {
-    "userName": "Edited user",
-    "email": "info@hejhej1.com",
-    "role": "publisher",
+    "username": "Edited user",
+    "email": "info@hejhej2.com",
+    "role": "admin",
     "password": "123456"
 }
 

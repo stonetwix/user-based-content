@@ -20,16 +20,15 @@ const tailLayout = {
 
 class Register extends Component {
 
-  onFinish = (values: any, history: any) => {
-    register(values.username, values.email, values.password);
-    console.log("Success:", values);
-    history.push('/registersuccess');
+  onFinish = async (values: any, history: any) => {
+    const registeredUser = await register(values.username, values.email, values.password);
+    if (registeredUser) {
+      history.push('/registersuccess');
+    } else {
+      alert('User name or e-mail already exists');
+    }
   };
-  
-  onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-    
+
   render() {
     return (
       <Row style={containerStyle}>
@@ -52,7 +51,6 @@ class Register extends Component {
                 remember: true,
               }}
               onFinish={(values) => this.onFinish(values, history)}
-              onFinishFailed={this.onFinishFailed}
             >
               <Form.Item 
                 label="User Name" 
@@ -155,7 +153,7 @@ const containerStyle: CSSProperties = {
   
   const register = async (username: string, email: string, password: string) => {
     try {
-        await fetch('/api/users/', {
+        const response = await fetch('/api/users/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -166,6 +164,10 @@ const containerStyle: CSSProperties = {
             password: password,
           })
         });
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        }
     } catch (error) {
         console.error(error);
     }

@@ -28,15 +28,10 @@ class LogIn extends Component {
     const user = await login(values.email, values.password);
     if (user) {
       setUser(user.username, user.role === 'admin');
-      console.log("Success:", values);
       history.push('/user/');
     } else {
       alert('Not valid e-mail or password')
     }
-  };
-
-  onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
   };
 
   render() {
@@ -60,7 +55,6 @@ class LogIn extends Component {
                 remember: true,
               }}
               onFinish={(values) => this.onFinish(values, history)}
-              onFinishFailed={this.onFinishFailed}
             >
               <Form.Item 
                 label="E-mail" 
@@ -123,7 +117,7 @@ export default LogIn;
 
 const login = async (email: string, password: string) => {
   try {
-      let response = await fetch('/api/login/', {
+      const response = await fetch('/api/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
