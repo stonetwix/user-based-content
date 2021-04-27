@@ -1,15 +1,18 @@
 {
-    "userName": "User Name 1",
-    "email": "info@hejhej1.com",
-    "role": "publisher"
+    "username": "Frodo",
+    "email": "frodo@baggins.com",
+    "role": "publisher",
+    "password": "$2b$10$CDSsx3MNMTweiX9.3LAAm.xuRx9PfKM6waYcVqjpvi2tkvua49Sbe"
 }
 {
-    "userName": "User Name 2",
-    "email": "info@hejhej2.com",
-    "role": "publisher"
+    "username": "Gandalf",
+    "email": "wizard@gandalf.com",
+    "role": "admin",
+    "password": "$2b$10$CDSsx3MNMTweiX9.3LAAm.xuRx9PfKM6waYcVqjpvi2tkvua49Sbe"
 }
 {
-    "userName": "User Name 3",
-    "email": "info@hejhej3.com",
-    "role": "admin"
+    "username": "Smeagol",
+    "email": "info@smeagol.com",
+    "role": "publisher",
+    "password": "$2b$10$CDSsx3MNMTweiX9.3LAAm.xuRx9PfKM6waYcVqjpvi2tkvua49Sbe"
 }

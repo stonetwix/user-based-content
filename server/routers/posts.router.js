@@ -5,7 +5,7 @@ const { body, validationResult } = require('express-validator');
 const auth = require('../auth');
 
 //Endpoints
-postsRouter.get('/api/all_posts', async (req, res) => {
+postsRouter.get('/api/allposts', async (req, res) => {
     const posts = await PostModel.find({}).sort({'date': 'desc'});
     res.status(200).json(posts);
 });
