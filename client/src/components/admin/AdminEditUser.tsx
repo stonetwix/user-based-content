@@ -53,11 +53,6 @@ class AdminEditUser extends Component<Props, State> {
     await putUser(values.user, (this.props.match.params as any)._id);
     this.props.history.push('/admin/users');
   }
- 
-
-  // componentWillUnmount() {
-  //   this.setState({ user: undefined });
-  // }
 
   render() {
     const { user } = this.state;

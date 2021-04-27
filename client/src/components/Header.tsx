@@ -36,7 +36,7 @@ class Navbar extends Component {
               <>
               <Menu.Item key="2">
               <Link to='/user' style={{ color: 'white', marginRight: '3rem' }}> 
-                Admin
+                My page
               </Link>
             </Menu.Item>
               <Menu.Item key="3">

@@ -65,7 +65,7 @@ userRouter.post('/api/login',
     }
 );
 
-userRouter.put('/api/users/:id',
+userRouter.put('/api/users/:id', 
     auth.secureWithRole('admin'),
     body('username').not().isEmpty(),
     body('email').isEmail().normalizeEmail(),

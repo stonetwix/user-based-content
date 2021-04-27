@@ -47,9 +47,9 @@ class AddNewUser extends Component<Props, State> {
   };
 
 
-  componentWillUnmount() {
-    this.setState({ user: undefined });
-  };
+  // componentWillUnmount() {
+  //   this.setState({ user: undefined });
+  // };
 
 
   render() {
