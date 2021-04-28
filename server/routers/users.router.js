@@ -52,7 +52,7 @@ userRouter.post('/api/login',
     body('password').not().isEmpty(),
     async (req, res) => {
         const { email, password } = req.body;
-        const user = await UserModel.findOne({ 'email': email });
+        const user = await UserModel.findOne({ 'email': email }).select('+password');
         console.log(user);
         if (!user || !await bcrypt.compare(password, user.password)) {
             res.status(401).json('Incorrect e-mail or password');
@@ -61,6 +61,7 @@ userRouter.post('/api/login',
         req.session.username = user.username;
         req.session.email = email;
         req.session.role = user.role;
+        req.session.userId = user._id;
         res.status(200).json(user);
     }
 );

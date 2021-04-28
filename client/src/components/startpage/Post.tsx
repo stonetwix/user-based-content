@@ -20,41 +20,43 @@ class StartPagePost extends Component <{}, State> {
   state: State ={
     posts: []
   }
+
   async componentDidMount() {
     const posts = await getPosts();
     this.setState({ posts: posts });
-}
-render() {
-    return(
-      <Row style={postContainer}>
-        <Col span={24} style={columnStyle}>
-          <List
-            itemLayout="vertical"
-            size="large"
-            dataSource={this.state.posts}
-            renderItem={item => (
-              
-              <List.Item 
-                style={postBox}
-                extra={
-                  <img style={imageStyle}
-                    src={item.imageUrl} 
-                    alt={item.title}
-                  />   
-                }
-              >
-                <Link to={'/post/' + item._id}>
-                  <List.Item.Meta
-                      title={item.title + ' | ' + item.author + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
-                      description={item.text.substring(0, 300) + '...'}
-                  />
-                </Link>
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row>      
-    )
+  }
+
+  render() {
+      return(
+        <Row style={postContainer}>
+          <Col span={24} style={columnStyle}>
+            <List
+              itemLayout="vertical"
+              size="large"
+              dataSource={this.state.posts}
+              renderItem={item => (
+                
+                <List.Item 
+                  style={postBox}
+                  extra={
+                    <img style={imageStyle}
+                      src={item.imageUrl} 
+                      alt={item.title}
+                    />   
+                  }
+                >
+                  <Link to={'/post/' + item._id}>
+                    <List.Item.Meta
+                        title={item.title + ' | ' + item.author + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
+                        description={item.text.substring(0, 300) + '...'}
+                    />
+                  </Link>
+                </List.Item>
+              )}
+            />
+          </Col>
+        </Row>      
+      )
   }
 };
 

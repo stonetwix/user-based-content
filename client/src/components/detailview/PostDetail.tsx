@@ -26,7 +26,8 @@ class PostDetail extends Component<Props, State> {
 
     componentWillUnmount() {
         this.setState({ post: undefined });
-      }
+    }
+    
     render () {
         if (!this.state.post) {
             return <ErrorPage />

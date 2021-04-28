@@ -9,6 +9,10 @@ const { Sider } = Layout;
 class SiderMenu extends Component {
     context!: ContextType<typeof UserContext>
     static contextType = UserContext;
+    
+    handleClick = (e: any) => {
+        console.log('click ', e);
+    };
 
     render () {
         return (
@@ -34,7 +38,12 @@ class SiderMenu extends Component {
                                 background: '#D3D5D4'
                             }}
                         >
-                            <Menu mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '8rem', background: '#D3D5D4' }}>
+                            <Menu 
+                                onClick={this.handleClick}
+                                mode="inline" 
+                                defaultSelectedKeys={['1']} 
+                                style={{ marginTop: '8rem', background: '#D3D5D4' }}
+                            >
                                 <Menu.Item key="1" icon={<CameraOutlined />}>
                                     <Link to={'/user'}>Posts</Link>
                                 </Menu.Item>

@@ -6,18 +6,17 @@ const auth = require('../auth');
 
 //Endpoints
 postsRouter.get('/api/allposts', async (req, res) => {
-    const posts = await PostModel.find({}).sort({'date': 'desc'});
+    const posts = await PostModel.find({}).sort({'date': 'desc'}).populate('User');
     res.status(200).json(posts);
 });
 
 postsRouter.get('/api/posts', 
-    auth.secure,
     async (req, res) => {
     if (req.session.role === 'admin') {
-        const posts = await PostModel.find({}).sort({'date': 'desc'});
+        const posts = await PostModel.find({}).sort({'date': 'desc'}).populate('User');
         res.status(200).json(posts);
     } else if (req.session.role === 'publisher') {
-        const userPosts = await PostModel.find({author: req.session.username}).sort({'date': 'desc'});
+        const userPosts = await PostModel.find({author: req.session.username}).sort({'date': 'desc'}).populate('User');
         res.status(200).json(userPosts);
     }
 });
@@ -42,8 +41,8 @@ postsRouter.post('/api/posts',
             return res.status(400).json({ errors: errors.array() });
         }
         const post = req.body;
-        post.author = req.session.username;
-        const newPost = await PostModel.create(req.body);
+        post.author = req.session.userId;
+        const newPost = await PostModel.create(post);
         res.status(201).json(newPost);
     }
 );
