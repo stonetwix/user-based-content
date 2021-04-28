@@ -46,12 +46,6 @@ class AddNewUser extends Component<Props, State> {
     this.props.history.push('/admin/users');
   };
 
-
-  // componentWillUnmount() {
-  //   this.setState({ user: undefined });
-  // };
-
-
   render() {
     return (
       <Layout style={{ background: '#fff' }}>

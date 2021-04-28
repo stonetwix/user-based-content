@@ -1,7 +1,7 @@
 
 import { Row, Col, Menu, Button } from "antd";
 import { Header} from "antd/lib/layout/layout";
-import React, { Component, ContextType, CSSProperties } from "react";
+import { Component, ContextType, CSSProperties } from "react";
 import logo from '../assets/logo-white.png'; 
 import { Link, Route } from 'react-router-dom';
 import { UserContext } from './context';
@@ -50,23 +50,24 @@ class Navbar extends Component {
               </>
             )}/>;
           return (
-          <Header style={layoutStyle}>
-            <Row style={{ width: '100%' }}>
-              <Col span={8}>
-                <Link to='/'>
-                  <img src={logo} alt="logo" style={logoStyle} />
-                </Link>
-              </Col>
+            <Header style={layoutStyle}>
+              <Row style={{ width: '100%' }}>
+                <Col span={8}>
+                  <Link to='/'>
+                    <img src={logo} alt="logo" style={logoStyle} />
+                  </Link>
+                </Col>
 
-              <Col span={10} offset={6}>
-              <Menu mode="horizontal" style={menuStyle}>
-              {userMenuItem}
-              </Menu>
-              </Col> 
-          </Row>
-        </Header> 
-    )}}
-    </UserContext.Consumer>)
+                <Col span={10} offset={6}>
+                <Menu mode="horizontal" style={menuStyle}>
+                {userMenuItem}
+                </Menu>
+                </Col> 
+            </Row>
+          </Header> 
+        )}}
+      </UserContext.Consumer>
+    )
   }
 }; 
 

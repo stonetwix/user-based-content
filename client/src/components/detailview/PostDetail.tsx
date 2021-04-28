@@ -8,13 +8,10 @@ import dayjs from 'dayjs';
 interface State {
     post?: Post;
 }
-
 interface Props extends RouteComponentProps {
     _id: string
 }
-
 class PostDetail extends Component<Props, State> {
-
     state: State = {
         post: undefined,
     }
@@ -26,7 +23,8 @@ class PostDetail extends Component<Props, State> {
 
     componentWillUnmount() {
         this.setState({ post: undefined });
-      }
+    }
+
     render () {
         if (!this.state.post) {
             return <ErrorPage />
@@ -37,7 +35,7 @@ class PostDetail extends Component<Props, State> {
                 <Col lg={{span: 24}} style={columnStyle}>
                     <img src={this.state.post.imageUrl} alt={this.state.post.title}/>          
                     <h1 style={titleStyle}>{this.state.post.title}</h1>
-                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{date}</h3>
+                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;|&nbsp;{date}</h3>
                     <p>{this.state.post.text}</p>
                 </Col>
             </Row>

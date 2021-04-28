@@ -15,17 +15,16 @@ const { Content } = Layout;
 
 interface State {
     users?: User []
-  }
+}
 
-  const successDelete = () => {
+const successDelete = () => {
     message.success('The user has been deleted', 3);
 };
 
 class AdminUserList extends Component < {}, State>{
-
     state: State ={
         users: []
-      }
+    }
 
     async componentDidMount() {
         const users= await getUsers();
@@ -37,7 +36,6 @@ class AdminUserList extends Component < {}, State>{
         const users = await getUsers();
         this.setState({ users: users });
     }
-
 
     render () {
         return (

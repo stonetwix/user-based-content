@@ -40,7 +40,6 @@ const successSave = () => {
 class EditPost extends Component<Props, State> {
   state: State = {
     post: undefined,
-
   };
   async componentDidMount() {
     const post = await getPost((this.props.match.params as any)._id);
@@ -55,6 +54,7 @@ class EditPost extends Component<Props, State> {
   componentWillUnmount() {
     this.setState({ post: undefined });
   }
+  
   render() {
     const { post } = this.state;
     if (!post) {

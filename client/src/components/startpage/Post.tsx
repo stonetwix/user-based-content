@@ -11,20 +11,20 @@ export interface Post {
   text: string
   imageUrl: string
 }
-
 interface State {
   posts?: Post[]
 }
 class StartPagePost extends Component <{}, State> {
-
-  state: State ={
+  state: State = {
     posts: []
   }
+
   async componentDidMount() {
     const posts = await getPosts();
     this.setState({ posts: posts });
-}
-render() {
+  }
+  
+  render() {
     return(
       <Row style={postContainer}>
         <Col span={24} style={columnStyle}>
@@ -47,13 +47,13 @@ render() {
                   <List.Item.Meta
                       title={item.title + ' | ' + item.author + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
                       description={item.text.substring(0, 300) + '...'}
-                  />
+                  />             
                 </Link>
               </List.Item>
             )}
           />
         </Col>
-      </Row>      
+      </Row>
     )
   }
 };
