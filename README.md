@@ -35,7 +35,7 @@ lösenord: 123\
 (publisher)
 
 ## Länkar
-[GitHub-repot](https://github.com/stonetwix/user-based-content)\
+[GitHub-repot](https://github.com/stonetwix/user-based-content)
 
 ## Skapat av
 [Malin Österberg](https://github.com/msmalinosterberg)\
