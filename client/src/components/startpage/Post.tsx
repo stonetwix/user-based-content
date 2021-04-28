@@ -2,11 +2,12 @@ import { Component, CSSProperties  } from 'react';
 import { List, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import { User } from '../admin/AdminUserList';
 
 export interface Post {
   _id: string
   title: string
-  author: string
+  author: User
   date: string
   text: string
   imageUrl: string
@@ -27,36 +28,36 @@ class StartPagePost extends Component <{}, State> {
   }
 
   render() {
-      return(
-        <Row style={postContainer}>
-          <Col span={24} style={columnStyle}>
-            <List
-              itemLayout="vertical"
-              size="large"
-              dataSource={this.state.posts}
-              renderItem={item => (
-                
-                <List.Item 
-                  style={postBox}
-                  extra={
-                    <img style={imageStyle}
-                      src={item.imageUrl} 
-                      alt={item.title}
-                    />   
-                  }
-                >
-                  <Link to={'/post/' + item._id}>
-                    <List.Item.Meta
-                        title={item.title + ' | ' + item.author + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
-                        description={item.text.substring(0, 300) + '...'}
-                    />
-                  </Link>
-                </List.Item>
-              )}
-            />
-          </Col>
-        </Row>      
-      )
+    return(
+      <Row style={postContainer}>
+        <Col span={24} style={columnStyle}>
+          <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={this.state.posts}
+            renderItem={item => (
+              
+              <List.Item 
+                style={postBox}
+                extra={
+                  <img style={imageStyle}
+                    src={item.imageUrl} 
+                    alt={item.title}
+                  />   
+                }
+              >
+                <Link to={'/post/' + item._id}>
+                  <List.Item.Meta
+                    title={item.title + ' | ' + item.author.username + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
+                    description={item.text.substring(0, 300) + '...'}
+                />
+                </Link>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>      
+    )
   }
 };
 

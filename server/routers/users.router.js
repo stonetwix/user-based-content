@@ -11,12 +11,14 @@ const { body, validationResult } = require('express-validator');
 userRouter.get('/api/users', 
     auth.secureWithRole('admin'),
     async (req, res) => {
+        console.log(req.path, req.params.id)
     const users = await UserModel.find({});
     res.status(200).json(users);
 });
 
 userRouter.get('/api/users/:id', async (req, res) => {
     try {
+        console.log(req.path, req.params.id)
         const user = await UserModel.findById(req.params.id);
         res.status(200).json(user);      
     } catch (error) {
@@ -34,7 +36,7 @@ userRouter.post('/api/users',
             return res.status(400).json({ errors: errors.array() });
         }
         const user = req.body;
-
+        console.log(req.path, req.params.id)
         const userExists = await UserModel.exists({ 'username': user.username });
          if (userExists) {
             return res.status(400).json('User name already exists');
@@ -42,6 +44,7 @@ userRouter.post('/api/users',
         user.role = 'publisher';
         const hashedPassword = await bcrypt.hash(user.password, 10);
         user.password = hashedPassword;
+        console.log(req.path, req.params.id)
         const newUser = await UserModel.create(user);
         res.status(201).json(newUser);
     }
@@ -52,8 +55,8 @@ userRouter.post('/api/login',
     body('password').not().isEmpty(),
     async (req, res) => {
         const { email, password } = req.body;
+        console.log(req.path, req.params.id)
         const user = await UserModel.findOne({ 'email': email }).select('+password');
-        console.log(user);
         if (!user || !await bcrypt.compare(password, user.password)) {
             res.status(401).json('Incorrect e-mail or password');
             return;
@@ -77,6 +80,7 @@ userRouter.put('/api/users/:id',
             return res.status(400).json({ errors: errors.array() });
         }
         try {
+            console.log(req.path, req.params.id)
             const user = await UserModel.findById(req.params.id).updateOne(req.body);
             res.status(200).json(user);
         } catch (error) {
@@ -87,6 +91,7 @@ userRouter.put('/api/users/:id',
 
 userRouter.delete('/api/users/:id', async (req, res) => {
     try {
+        console.log(req.path, req.params.id)
         await UserModel.findById(req.params.id).deleteOne();
         res.status(204).json({});
     } catch (error) {

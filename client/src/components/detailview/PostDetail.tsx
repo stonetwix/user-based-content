@@ -38,7 +38,7 @@ class PostDetail extends Component<Props, State> {
                 <Col lg={{span: 24}} style={columnStyle}>
                     <img src={this.state.post.imageUrl} alt={this.state.post.title}/>          
                     <h1 style={titleStyle}>{this.state.post.title}</h1>
-                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{date}</h3>
+                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;|&nbsp;{date}</h3>
                     <p>{this.state.post.text}</p>
                 </Col>
             </Row>

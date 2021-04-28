@@ -13,17 +13,17 @@ postsRouter.get('/api/allposts', async (req, res) => {
 postsRouter.get('/api/posts', 
     async (req, res) => {
     if (req.session.role === 'admin') {
-        const posts = await PostModel.find({}).sort({'date': 'desc'}).populate('User');
+        const posts = await PostModel.find({}).sort({'date': 'desc'}).populate('author');
         res.status(200).json(posts);
     } else if (req.session.role === 'publisher') {
-        const userPosts = await PostModel.find({author: req.session.username}).sort({'date': 'desc'}).populate('User');
+        const userPosts = await PostModel.find({author: req.session.username}).sort({'date': 'desc'}).populate('author');
         res.status(200).json(userPosts);
     }
 });
 
 postsRouter.get('/api/posts/:id', async (req, res) => {
     try {
-        const post = await PostModel.findById(req.params.id);    
+        const post = await PostModel.findById(req.params.id).populate('author');    
         res.status(200).json(post);
     } catch (error) {
         res.status(404).json({ error: 'Post not available' });
@@ -53,10 +53,9 @@ postsRouter.put('/api/posts/:id',
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {
-        console.log(req.session.email);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array()});
+            return res.status(400).json({ errors: errors.array() });
         }
         try {
             const post = await PostModel.findById(req.params.id).updateOne(req.body);

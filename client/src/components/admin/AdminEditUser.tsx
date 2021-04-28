@@ -117,6 +117,7 @@ export default withRouter(AdminEditUser);
 
 const getUser = async (_id: string) => {
   try {
+    console.log(_id)
       let response = await fetch('/api/users/' + _id);
       const data = await response.json();
       return data;
