@@ -17,7 +17,6 @@ export const UserContext = createContext<ContextValue>({
     isLoggedIn: false,
     setUser: () => {},
     logoutUser: () => {},
-    
 });
 
 class UserProvider extends Component<{}, State> {
@@ -27,15 +26,19 @@ class UserProvider extends Component<{}, State> {
         isLoggedIn: false,
     }
 
+    componentDidMount = async () => {
+        const user = await whoami();
+        if (user && !user.error) {
+            this.setUser(user.username, user.role === 'admin');
+        }
+    }
+ 
     setUser = (username: string, isAdmin: boolean) => {
-        console.log(this.state);
         this.setState({ username: username, isAdmin: isAdmin, isLoggedIn: true });
-        console.log(this.state);
     }
     
     logoutUser = () => {
         this.setState({ username: '', isAdmin: false, isLoggedIn: false });
-        console.log(this.state);
     }
 
     render() {
@@ -54,3 +57,15 @@ class UserProvider extends Component<{}, State> {
 }
 
 export default UserProvider;
+
+const whoami = async () => {
+    try {
+        let response = await fetch('/api/whoami/');
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}

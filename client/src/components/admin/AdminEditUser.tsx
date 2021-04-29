@@ -15,7 +15,6 @@ const layout = {
   },
 };
 
-
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: "${label} is required!",
@@ -32,6 +31,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 
 interface State {
   user?: User;
+  loading: boolean;
 }
 
 const successSave = () => {
@@ -41,12 +41,12 @@ const successSave = () => {
 class AdminEditUser extends Component<Props, State> {
   state: State = {
     user: undefined,
+    loading: true,
   };
-
 
   async componentDidMount() {
     const user = await getUser((this.props.match.params as any)._id);
-    this.setState({ user: user });
+    this.setState({ user: user, loading: false });
   }
 
   onFinish = async (values: any) => {
@@ -56,59 +56,62 @@ class AdminEditUser extends Component<Props, State> {
 
   render() {
     const { user } = this.state;
+    if (this.state.loading) {
+      return <div></div>
+    }
     if (!user) {
       return <ErrorPage />
     }
 
     return (
-        <Layout style={{ background: '#fff' }}>
-          <SiderMenu />
-          <Content style={{ margin: '8rem', background: '#fff' }}>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-            <Form
-              {...layout}
-              name="nest-messages"
-              onFinish={this.onFinish}
-              validateMessages={validateMessages}
-              initialValues={{
-                user: {
-                  username: this.state.user?.username,
-                  email: this.state.user?.email,
-                  role: this.state.user?.role,
-                }
-              }}
-            >
-              <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>EDIT USER</h1>
-              <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
-                <Input />
-              </Form.Item>
+      <Layout style={{ background: '#fff' }}>
+        <SiderMenu />
+        <Content style={{ margin: '8rem', background: '#fff' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+          <Form
+            {...layout}
+            name="nest-messages"
+            onFinish={this.onFinish}
+            validateMessages={validateMessages}
+            initialValues={{
+              user: {
+                username: this.state.user?.username,
+                email: this.state.user?.email,
+                role: this.state.user?.role,
+              }
+            }}
+          >
+            <h1 style={{ fontWeight: "bold", marginBottom: '3rem' }}>EDIT USER</h1>
+            <Form.Item name={["user", "username"]} label="Username: " rules={[{ required: true }]}>
+              <Input />
+            </Form.Item>
 
-              <Form.Item name={["user", "email"]} label="E-mail: " rules={[{ required: true }]}>
-                <Input disabled={true} />
-              </Form.Item>
-              
-              <Form.Item name={["user", "role"]} label="Role: " rules={[{ required: true }]}>
-                <Select>
-                    <Select.Option value="publisher">Publisher</Select.Option>
-                    <Select.Option value="admin">Admin</Select.Option>
-                </Select>
-              </Form.Item>
+            <Form.Item name={["user", "email"]} label="E-mail: " rules={[{ required: true }]}>
+              <Input disabled={true} />
+            </Form.Item>
+            
+            <Form.Item name={["user", "role"]} label="Role: " rules={[{ required: true }]}>
+              <Select>
+                  <Select.Option value="publisher">Publisher</Select.Option>
+                  <Select.Option value="admin">Admin</Select.Option>
+              </Select>
+            </Form.Item>
 
-              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
-                  <Button 
-                    type="primary"
-                    onClick={() => {console.log('Post updated'); successSave();}} 
-                    htmlType="submit" 
-                  >
-                    Save
-                  </Button>
-                </div>
-              </Form.Item>
-            </Form>
-            </div>
-          </Content>
-        </Layout>
+            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 3 }}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <Button 
+                  type="primary"
+                  onClick={() => {successSave()}} 
+                  htmlType="submit" 
+                >
+                  Save
+                </Button>
+              </div>
+            </Form.Item>
+          </Form>
+          </div>
+        </Content>
+      </Layout>
     );
   }
 }
@@ -118,8 +121,10 @@ export default withRouter(AdminEditUser);
 const getUser = async (_id: string) => {
   try {
       let response = await fetch('/api/users/' + _id);
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }

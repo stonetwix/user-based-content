@@ -52,8 +52,7 @@ userRouter.post('/api/login',
     body('password').not().isEmpty(),
     async (req, res) => {
         const { email, password } = req.body;
-        const user = await UserModel.findOne({ 'email': email });
-        console.log(user);
+        const user = await UserModel.findOne({ 'email': email }).select('+password');
         if (!user || !await bcrypt.compare(password, user.password)) {
             res.status(401).json('Incorrect e-mail or password');
             return;
@@ -100,5 +99,13 @@ userRouter.delete('/api/logout', (req, res) => {
     req.session = null;
     res.status(200).json('Logged out')
 });
+
+userRouter.get('/api/whoami', async (req, res) => {
+    if (!req.session.email) {
+        return res.status(200).json({ error: 'You are not logged in' });
+    }
+    const user = await UserModel.findOne({ 'email': req.session.email });
+    res.status(200).json(user);
+})
 
 module.exports = userRouter;

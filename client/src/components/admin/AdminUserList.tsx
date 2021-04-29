@@ -15,17 +15,16 @@ const { Content } = Layout;
 
 interface State {
     users?: User []
-  }
+}
 
-  const successDelete = () => {
+const successDelete = () => {
     message.success('The user has been deleted', 3);
 };
 
 class AdminUserList extends Component < {}, State>{
-
     state: State ={
         users: []
-      }
+    }
 
     async componentDidMount() {
         const users= await getUsers();
@@ -38,7 +37,6 @@ class AdminUserList extends Component < {}, State>{
         this.setState({ users: users });
     }
 
-
     render () {
         return (
             <Layout style={{ background: '#fff' }}>
@@ -49,8 +47,7 @@ class AdminUserList extends Component < {}, State>{
                         <Button 
                             type="primary" 
                             icon={<PlusCircleOutlined />} 
-                            style={{ marginBottom: '4rem' }} 
-                            onClick={() => console.log('new user clicked')}
+                            style={{ marginBottom: '4rem' }}
                         >
                             Add New User
                         </Button>
@@ -117,8 +114,10 @@ const editStyle: CSSProperties = {
 const getUsers = async () => {
     try {
         let response = await fetch('/api/users');
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }

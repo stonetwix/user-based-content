@@ -124,7 +124,6 @@ class Register extends Component {
                     type="primary"
                     htmlType="submit" 
                     style={buttonStyle}
-                    //onClick={() => this.handleRegisterClick(history)}
                   >
                     Sign up
                   </Button>

@@ -7,27 +7,26 @@ import dayjs from 'dayjs';
 
 interface State {
     post?: Post;
+    loading: boolean;
 }
-
 interface Props extends RouteComponentProps {
     _id: string
 }
-
 class PostDetail extends Component<Props, State> {
-
     state: State = {
         post: undefined,
+        loading: true,
     }
 
     async componentDidMount() {
         const post = await getPost((this.props.match.params as any)._id);
-        this.setState({post: post})
+        this.setState({ post: post, loading: false })
     }
 
-    componentWillUnmount() {
-        this.setState({ post: undefined });
-      }
     render () {
+        if (this.state.loading) {
+            return <div></div>
+        }
         if (!this.state.post) {
             return <ErrorPage />
         }
@@ -37,7 +36,7 @@ class PostDetail extends Component<Props, State> {
                 <Col lg={{span: 24}} style={columnStyle}>
                     <img src={this.state.post.imageUrl} alt={this.state.post.title}/>          
                     <h1 style={titleStyle}>{this.state.post.title}</h1>
-                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{date}</h3>
+                    <h3 style={usernameStyle}>{this.state.post.author}&nbsp;|&nbsp;{date}</h3>
                     <p>{this.state.post.text}</p>
                 </Col>
             </Row>
@@ -74,12 +73,14 @@ const titleStyle: CSSProperties = {
      textTransform: 'uppercase',
  }
 
- const getPost = async (_id: string) => {
+const getPost = async (_id: string) => {
     try {
         let response = await fetch('/api/posts/' + _id);
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }
-  }
+}

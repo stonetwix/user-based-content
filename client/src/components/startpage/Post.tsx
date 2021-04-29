@@ -11,20 +11,25 @@ export interface Post {
   text: string
   imageUrl: string
 }
-
 interface State {
-  posts?: Post[]
+  posts?: Post[];
+  loading: boolean;
 }
 class StartPagePost extends Component <{}, State> {
-
-  state: State ={
-    posts: []
+  state: State = {
+    posts: [],
+    loading: true,
   }
+
   async componentDidMount() {
     const posts = await getPosts();
-    this.setState({ posts: posts });
-}
-render() {
+    this.setState({ posts: posts, loading: false });
+  }
+  
+  render() {
+    if (this.state.loading) {
+      return <div></div>
+    }
     return(
       <Row style={postContainer}>
         <Col span={24} style={columnStyle}>
@@ -47,19 +52,18 @@ render() {
                   <List.Item.Meta
                       title={item.title + ' | ' + item.author + ' | ' + dayjs(item.date).format('YYYY-MM-DD')}
                       description={item.text.substring(0, 300) + '...'}
-                  />
+                  />             
                 </Link>
               </List.Item>
             )}
           />
         </Col>
-      </Row>      
+      </Row>
     )
   }
 };
 
 export default StartPagePost;
-
 
 const postContainer: CSSProperties = {
   display: 'flex',
@@ -89,8 +93,10 @@ const imageStyle: CSSProperties = {
 const getPosts = async () => {
   try {
       let response = await fetch('/api/allposts');
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }

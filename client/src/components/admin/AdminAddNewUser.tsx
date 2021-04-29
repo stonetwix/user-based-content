@@ -46,12 +46,6 @@ class AddNewUser extends Component<Props, State> {
     this.props.history.push('/admin/users');
   };
 
-
-  // componentWillUnmount() {
-  //   this.setState({ user: undefined });
-  // };
-
-
   render() {
     return (
       <Layout style={{ background: '#fff' }}>
@@ -96,7 +90,7 @@ class AddNewUser extends Component<Props, State> {
                           <div style={{ display: "flex", justifyContent: "space-between" }}>
                               <Button 
                               type="primary"
-                              onClick={() => {console.log('User added'); success();}} 
+                              onClick={() => {success()}} 
                               htmlType="submit" 
                               >
                               Save

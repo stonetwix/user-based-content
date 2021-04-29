@@ -22,6 +22,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 interface State {
     posts?: Post[];
     user?: User;
+    loading: boolean;
 }
 
 const successDelete = () => {
@@ -34,11 +35,12 @@ class PostsListUser extends Component <Props, State> {
     state: State ={
         posts: [],
         user: undefined,
+        loading: true,
     }
     
     async componentDidMount() {
         const posts = await getPosts();
-        this.setState({ posts: posts });
+        this.setState({ posts: posts, loading: false });
     }
 
     handleDelete = async (_id: string) => {
@@ -48,61 +50,62 @@ class PostsListUser extends Component <Props, State> {
     }
     
     render() {
+        if (this.state.loading) {
+            return <div></div>
+        }
         return (
             <UserContext.Consumer>
-            {({ username }) => {
-            return (
-                <Layout style={{ background: '#fff' }}>
-                    <SiderMenu />
-                    <Content style={{ margin: '8rem', background: '#fff' }}>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            <h1 style={{ marginBottom: '2rem' }}>Welcome {username}</h1>
-                        <Link to={'/user/add-new-post'}> 
-                            <Button type="primary" 
-                                icon={<PlusCircleOutlined />} 
-                                style={{ marginBottom: '4rem' }} 
-                                onClick={() => console.log('new post clicked')}
-                            > 
-                                Create New Post 
-                            </Button> 
-                        </Link>
-                            <List
-                                itemLayout="horizontal"
-                                dataSource={this.state.posts}
-                                renderItem={item => (
-                                <List.Item actions={[
-                                    <Link to={'/user/edit-post/' + item._id}>  
+                {({ username }) => {
+                return (
+                    <Layout style={{ background: '#fff' }}>
+                        <SiderMenu />
+                        <Content style={{ margin: '8rem', background: '#fff' }}>
+                            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                                <h1 style={{ marginBottom: '2rem' }}>Welcome {username}</h1>
+                            <Link to={'/user/add-new-post'}> 
+                                <Button type="primary" 
+                                    icon={<PlusCircleOutlined />} 
+                                    style={{ marginBottom: '4rem' }} 
+                                > 
+                                    Create New Post 
+                                </Button> 
+                            </Link>
+                                <List
+                                    itemLayout="horizontal"
+                                    dataSource={this.state.posts}
+                                    renderItem={item => (
+                                    <List.Item actions={[
+                                        <Link to={'/user/edit-post/' + item._id}>  
+                                            <Button 
+                                            key="edit-post" 
+                                            style={editStyle}
+                                            icon={<FormOutlined />}
+                                            >
+                                                edit
+                                            </Button>
+                                        </Link>, 
                                         <Button 
-                                        key="edit-post" 
-                                        onClick={() => console.log('edit-clicked')}
-                                        style={editStyle}
-                                        icon={<FormOutlined />}
+                                            key="delete-post" 
+                                            onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
+                                            style={deleteStyle}
+                                            icon={<DeleteOutlined />}
                                         >
-                                            edit
-                                        </Button>
-                                    </Link>, 
-                                    <Button 
-                                        key="delete-post" 
-                                        onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
-                                        style={deleteStyle}
-                                        icon={<DeleteOutlined />}
+                                            delete
+                                        </Button>]}
                                     >
-                                        delete
-                                    </Button>]}
-                                >
-                                <List.Item.Meta
-                                    avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
-                                    title={item.title}
-                                    description={item.text.substring(0, 35) + '...'}
+                                    <List.Item.Meta
+                                        avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
+                                        title={item.title}
+                                        description={item.text.substring(0, 35) + '...'}
+                                    />
+                                    </List.Item>
+                                    )}
                                 />
-                                </List.Item>
-                                )}
-                            />
-                        </div>
-                    </Content>
-                </Layout>
-                )
-            }}
+                            </div>
+                        </Content>
+                    </Layout>
+                    )
+                }}
             </UserContext.Consumer>
         )
     }    
@@ -135,17 +138,19 @@ const getPosts = async () => {
         let response = await fetch('/api/posts/', {
             credentials: 'include',
         });
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }
 } 
 
-  const deletePost = async (_id: string) => {
+const deletePost = async (_id: string) => {
     try {
         await fetch('/api/posts/' + _id, {
-          method: 'DELETE',
+            method: 'DELETE',
         });
     } catch (error) {
         console.error(error);

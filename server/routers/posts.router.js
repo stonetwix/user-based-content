@@ -54,7 +54,6 @@ postsRouter.put('/api/posts/:id',
     body('text').not().isEmpty(),
     body('imageUrl').not().isEmpty(),
     async (req, res) => {
-        console.log(req.session.email);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array()});

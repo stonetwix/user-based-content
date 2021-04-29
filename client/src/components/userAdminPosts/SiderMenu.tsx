@@ -1,21 +1,31 @@
 import { Component, ContextType } from 'react';
 import { Layout, Menu } from 'antd';
 import { UserOutlined, CameraOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import { UserContext } from '../context';
+import PropTypes from 'prop-types';
 
 const { Sider } = Layout;
 
-class SiderMenu extends Component {
+interface Props extends RouteComponentProps {
+    location: any
+}
+
+class SiderMenu extends Component<Props> {
     context!: ContextType<typeof UserContext>
     static contextType = UserContext;
 
+    static propTypes = {
+        location: PropTypes.object.isRequired
+    }
+
     render () {
+        const { location } = this.props;
         return (
             <UserContext.Consumer>
                 {({ isAdmin }) => {
                     const adminMenu = isAdmin ?     
-                    <Menu.Item key="2" icon={<UserOutlined />}>
+                    <Menu.Item key="/admin/users" icon={<UserOutlined />}>
                         <Link to={'/admin/users'}>Users</Link>
                     </Menu.Item> : <div></div>
 
@@ -34,8 +44,8 @@ class SiderMenu extends Component {
                                 background: '#D3D5D4'
                             }}
                         >
-                            <Menu mode="inline" defaultSelectedKeys={['1']} style={{ marginTop: '8rem', background: '#D3D5D4' }}>
-                                <Menu.Item key="1" icon={<CameraOutlined />}>
+                            <Menu mode="inline" defaultSelectedKeys={['/user']} selectedKeys={[location.pathname]} style={{ marginTop: '8rem', background: '#D3D5D4' }}>
+                                <Menu.Item key="/user" icon={<CameraOutlined />}>
                                     <Link to={'/user'}>Posts</Link>
                                 </Menu.Item>
                                 {adminMenu}
@@ -48,4 +58,4 @@ class SiderMenu extends Component {
     }
 }
 
-export default SiderMenu;
+export default withRouter(SiderMenu);

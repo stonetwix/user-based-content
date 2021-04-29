@@ -1,4 +1,4 @@
-import React from 'react';import { Component, CSSProperties } from 'react'
+import { Component, CSSProperties } from 'react'
 import { Result, Button, Col, Row } from 'antd';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ class ErrorPage extends Component<Props, State> {
     };
     
     navigateBack = () => this.props.history.goBack();
+    
     render() {
         return (
             <Row style={ErrorPageStyle}>

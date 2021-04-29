@@ -31,6 +31,7 @@ const validateMessages = {
 interface Props extends RouteComponentProps<{ _id: string }> {}
 interface State {
   post?: Post;
+  loading: boolean;
 }
 
 const successSave = () => {
@@ -40,23 +41,23 @@ const successSave = () => {
 class EditPost extends Component<Props, State> {
   state: State = {
     post: undefined,
-
+    loading: true,
   };
   async componentDidMount() {
     const post = await getPost((this.props.match.params as any)._id);
-    this.setState({ post: post });
+    this.setState({ post: post, loading: false });
   }
 
   onFinish = async (values: any) => {
     await putPost(values.post, (this.props.match.params as any)._id);
     this.props.history.push('/user');
   }
- 
-  componentWillUnmount() {
-    this.setState({ post: undefined });
-  }
+  
   render() {
     const { post } = this.state;
+    if (this.state.loading) {
+      return <div></div>
+    }
     if (!post) {
       return <ErrorPage />
     }
@@ -96,7 +97,7 @@ class EditPost extends Component<Props, State> {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button 
                   type="primary"
-                  onClick={() => {console.log('Post updated'); successSave();}} 
+                  onClick={() => {successSave()}} 
                   htmlType="submit"
                 >
                   Save
@@ -117,8 +118,10 @@ export default withRouter(EditPost);
 const getPost = async (_id: string) => {
   try {
       let response = await fetch('/api/posts/' + _id);
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }
