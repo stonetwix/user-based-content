@@ -115,8 +115,10 @@ const editStyle: CSSProperties = {
 const getUsers = async () => {
     try {
         let response = await fetch('/api/users');
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }

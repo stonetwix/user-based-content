@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 
 interface State {
     post?: Post;
+    loading: boolean;
 }
 interface Props extends RouteComponentProps {
     _id: string
@@ -14,18 +15,18 @@ interface Props extends RouteComponentProps {
 class PostDetail extends Component<Props, State> {
     state: State = {
         post: undefined,
+        loading: true,
     }
 
     async componentDidMount() {
         const post = await getPost((this.props.match.params as any)._id);
-        this.setState({post: post})
-    }
-
-    componentWillUnmount() {
-        this.setState({ post: undefined });
+        this.setState({ post: post, loading: false })
     }
 
     render () {
+        if (this.state.loading) {
+            return <div></div>
+        }
         if (!this.state.post) {
             return <ErrorPage />
         }
@@ -75,8 +76,10 @@ const titleStyle: CSSProperties = {
  const getPost = async (_id: string) => {
     try {
         let response = await fetch('/api/posts/' + _id);
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }

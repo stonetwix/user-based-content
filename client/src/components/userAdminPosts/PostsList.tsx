@@ -22,6 +22,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 interface State {
     posts?: Post[];
     user?: User;
+    loading: boolean;
 }
 
 const successDelete = () => {
@@ -34,11 +35,12 @@ class PostsListUser extends Component <Props, State> {
     state: State ={
         posts: [],
         user: undefined,
+        loading: true,
     }
     
     async componentDidMount() {
         const posts = await getPosts();
-        this.setState({ posts: posts });
+        this.setState({ posts: posts, loading: false });
     }
 
     handleDelete = async (_id: string) => {
@@ -48,6 +50,9 @@ class PostsListUser extends Component <Props, State> {
     }
     
     render() {
+        if (this.state.loading) {
+            return <div></div>
+        }
         return (
             <UserContext.Consumer>
             {({ username }) => {
@@ -135,17 +140,19 @@ const getPosts = async () => {
         let response = await fetch('/api/posts/', {
             credentials: 'include',
         });
-        const data = await response.json();
-        return data;
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
     } catch (error) {
         console.error(error);
     }
 } 
 
-  const deletePost = async (_id: string) => {
+const deletePost = async (_id: string) => {
     try {
         await fetch('/api/posts/' + _id, {
-          method: 'DELETE',
+            method: 'DELETE',
         });
     } catch (error) {
         console.error(error);

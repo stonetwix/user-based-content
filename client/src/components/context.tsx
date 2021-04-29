@@ -28,7 +28,6 @@ class UserProvider extends Component<{}, State> {
     }
 
     setUser = (username: string, isAdmin: boolean) => {
-        console.log(this.state);
         this.setState({ username: username, isAdmin: isAdmin, isLoggedIn: true });
         console.log(this.state);
     }

@@ -15,7 +15,6 @@ const layout = {
   },
 };
 
-
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
   required: "${label} is required!",
@@ -32,6 +31,7 @@ interface Props extends RouteComponentProps<{ _id: string }> {}
 
 interface State {
   user?: User;
+  loading: boolean;
 }
 
 const successSave = () => {
@@ -41,11 +41,12 @@ const successSave = () => {
 class AdminEditUser extends Component<Props, State> {
   state: State = {
     user: undefined,
+    loading: true,
   };
 
   async componentDidMount() {
     const user = await getUser((this.props.match.params as any)._id);
-    this.setState({ user: user });
+    this.setState({ user: user, loading: false });
   }
 
   onFinish = async (values: any) => {
@@ -55,6 +56,9 @@ class AdminEditUser extends Component<Props, State> {
 
   render() {
     const { user } = this.state;
+    if (this.state.loading) {
+      return <div></div>
+    }
     if (!user) {
       return <ErrorPage />
     }
@@ -117,8 +121,10 @@ export default withRouter(AdminEditUser);
 const getUser = async (_id: string) => {
   try {
       let response = await fetch('/api/users/' + _id);
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }

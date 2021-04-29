@@ -12,19 +12,24 @@ export interface Post {
   imageUrl: string
 }
 interface State {
-  posts?: Post[]
+  posts?: Post[];
+  loading: boolean;
 }
 class StartPagePost extends Component <{}, State> {
   state: State = {
-    posts: []
+    posts: [],
+    loading: true,
   }
 
   async componentDidMount() {
     const posts = await getPosts();
-    this.setState({ posts: posts });
+    this.setState({ posts: posts, loading: false });
   }
   
   render() {
+    if (this.state.loading) {
+      return <div></div>
+    }
     return(
       <Row style={postContainer}>
         <Col span={24} style={columnStyle}>
@@ -60,7 +65,6 @@ class StartPagePost extends Component <{}, State> {
 
 export default StartPagePost;
 
-
 const postContainer: CSSProperties = {
   display: 'flex',
   justifyContent: 'space-around',
@@ -89,8 +93,10 @@ const imageStyle: CSSProperties = {
 const getPosts = async () => {
   try {
       let response = await fetch('/api/allposts');
-      const data = await response.json();
-      return data;
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      }
   } catch (error) {
       console.error(error);
   }
