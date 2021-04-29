@@ -75,7 +75,7 @@ class UserAddNewPost extends Component<Props, State> {
                 <div style={{ display: "flex", justifyContent: "space-between" }}>
                   <Button 
                     type="primary"
-                    onClick={() => {console.log('Post added'); successAdd();}} 
+                    onClick={() => {successAdd()}} 
                     htmlType="submit"
                   >
                     Save

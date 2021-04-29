@@ -55,59 +55,57 @@ class PostsListUser extends Component <Props, State> {
         }
         return (
             <UserContext.Consumer>
-            {({ username }) => {
-            return (
-                <Layout style={{ background: '#fff' }}>
-                    <SiderMenu />
-                    <Content style={{ margin: '8rem', background: '#fff' }}>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-                            <h1 style={{ marginBottom: '2rem' }}>Welcome {username}</h1>
-                        <Link to={'/user/add-new-post'}> 
-                            <Button type="primary" 
-                                icon={<PlusCircleOutlined />} 
-                                style={{ marginBottom: '4rem' }} 
-                                onClick={() => console.log('new post clicked')}
-                            > 
-                                Create New Post 
-                            </Button> 
-                        </Link>
-                            <List
-                                itemLayout="horizontal"
-                                dataSource={this.state.posts}
-                                renderItem={item => (
-                                <List.Item actions={[
-                                    <Link to={'/user/edit-post/' + item._id}>  
+                {({ username }) => {
+                return (
+                    <Layout style={{ background: '#fff' }}>
+                        <SiderMenu />
+                        <Content style={{ margin: '8rem', background: '#fff' }}>
+                            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+                                <h1 style={{ marginBottom: '2rem' }}>Welcome {username}</h1>
+                            <Link to={'/user/add-new-post'}> 
+                                <Button type="primary" 
+                                    icon={<PlusCircleOutlined />} 
+                                    style={{ marginBottom: '4rem' }} 
+                                > 
+                                    Create New Post 
+                                </Button> 
+                            </Link>
+                                <List
+                                    itemLayout="horizontal"
+                                    dataSource={this.state.posts}
+                                    renderItem={item => (
+                                    <List.Item actions={[
+                                        <Link to={'/user/edit-post/' + item._id}>  
+                                            <Button 
+                                            key="edit-post" 
+                                            style={editStyle}
+                                            icon={<FormOutlined />}
+                                            >
+                                                edit
+                                            </Button>
+                                        </Link>, 
                                         <Button 
-                                        key="edit-post" 
-                                        onClick={() => console.log('edit-clicked')}
-                                        style={editStyle}
-                                        icon={<FormOutlined />}
+                                            key="delete-post" 
+                                            onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
+                                            style={deleteStyle}
+                                            icon={<DeleteOutlined />}
                                         >
-                                            edit
-                                        </Button>
-                                    </Link>, 
-                                    <Button 
-                                        key="delete-post" 
-                                        onClick={() => {this.handleDelete(item._id); successDelete();}}                                 
-                                        style={deleteStyle}
-                                        icon={<DeleteOutlined />}
+                                            delete
+                                        </Button>]}
                                     >
-                                        delete
-                                    </Button>]}
-                                >
-                                <List.Item.Meta
-                                    avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
-                                    title={item.title}
-                                    description={item.text.substring(0, 35) + '...'}
+                                    <List.Item.Meta
+                                        avatar={<Avatar src={item.imageUrl} style={{ width: '4rem', height: '4rem' }}/>}
+                                        title={item.title}
+                                        description={item.text.substring(0, 35) + '...'}
+                                    />
+                                    </List.Item>
+                                    )}
                                 />
-                                </List.Item>
-                                )}
-                            />
-                        </div>
-                    </Content>
-                </Layout>
-                )
-            }}
+                            </div>
+                        </Content>
+                    </Layout>
+                    )
+                }}
             </UserContext.Consumer>
         )
     }    

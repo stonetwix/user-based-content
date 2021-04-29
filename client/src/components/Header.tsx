@@ -34,19 +34,19 @@ class Navbar extends Component {
             </Menu.Item> :
             <Route render={({ history }) => (
               <>
-              <Menu.Item key="2">
-              <Link to='/user' style={{ color: 'white', marginRight: '3rem' }}> 
-                My page
-              </Link>
-            </Menu.Item>
-              <Menu.Item key="3">
-                <Button
-                  onClick={() => this.handleLogout(history)}
-                  style={{ borderRadius: '10rem' }}
-                > 
-                  Log out 
-                </Button>
+                <Menu.Item key="2">
+                <Link to='/user' style={{ color: 'white', marginRight: '3rem' }}> 
+                  My page
+                </Link>
               </Menu.Item>
+                <Menu.Item key="3">
+                  <Button
+                    onClick={() => this.handleLogout(history)}
+                    style={{ borderRadius: '10rem' }}
+                  > 
+                    Log out 
+                  </Button>
+                </Menu.Item>
               </>
             )}/>;
           return (
@@ -59,13 +59,13 @@ class Navbar extends Component {
                 </Col>
 
                 <Col span={10} offset={6}>
-                <Menu mode="horizontal" style={menuStyle}>
-                {userMenuItem}
-                </Menu>
+                  <Menu mode="horizontal" style={menuStyle}>
+                    {userMenuItem}
+                  </Menu>
                 </Col> 
-            </Row>
-          </Header> 
-        )}}
+              </Row>
+            </Header> 
+          )}}
       </UserContext.Consumer>
     )
   }

@@ -101,7 +101,7 @@ class AdminEditUser extends Component<Props, State> {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Button 
                   type="primary"
-                  onClick={() => {console.log('Post updated'); successSave();}} 
+                  onClick={() => {successSave()}} 
                   htmlType="submit" 
                 >
                   Save

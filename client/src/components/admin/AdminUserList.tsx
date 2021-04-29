@@ -47,8 +47,7 @@ class AdminUserList extends Component < {}, State>{
                         <Button 
                             type="primary" 
                             icon={<PlusCircleOutlined />} 
-                            style={{ marginBottom: '4rem' }} 
-                            onClick={() => console.log('new user clicked')}
+                            style={{ marginBottom: '4rem' }}
                         >
                             Add New User
                         </Button>

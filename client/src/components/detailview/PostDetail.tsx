@@ -73,7 +73,7 @@ const titleStyle: CSSProperties = {
      textTransform: 'uppercase',
  }
 
- const getPost = async (_id: string) => {
+const getPost = async (_id: string) => {
     try {
         let response = await fetch('/api/posts/' + _id);
         if (response.ok) {
@@ -83,4 +83,4 @@ const titleStyle: CSSProperties = {
     } catch (error) {
         console.error(error);
     }
-  }
+}
