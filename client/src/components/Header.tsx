@@ -98,9 +98,9 @@ const menuStyle: CSSProperties = {
   display: 'flex', 
   justifyContent: 'center',
   alignItems: 'center',
-  marginTop: window.innerWidth > 768 ? '1.8rem' : '-0.3rem',
+  marginTop: window.innerWidth > 768 ? '1.8rem' : '1rem',
   marginRight: window.innerWidth > 768 ? '0' : '-2rem',
-  fontSize: '1.3rem', 
+  fontSize: window.innerWidth > 768 ? '1.3rem' : '0.8rem', 
   fontWeight: 'bold'
 }
 

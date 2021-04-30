@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 require('express-async-errors');
 const cookieSession = require('cookie-session');
@@ -9,7 +8,6 @@ const userRouter = require('./routers/users.router');
 const app = express();
 const port = 3001;
 
-app.use(cors({ credentials: true }));
 app.use(express.json());
 app.use(cookieSession({
     name: 'session',
