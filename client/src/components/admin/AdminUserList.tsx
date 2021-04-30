@@ -3,6 +3,7 @@ import { Layout, Button, List, message } from 'antd';
 import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import SiderMenu from '../userAdminPosts/SiderMenu';
 import { Link } from 'react-router-dom';
+import Spinner from '../Spinner';
 
 export interface User {
     _id: string
@@ -14,7 +15,8 @@ export interface User {
 const { Content } = Layout;
 
 interface State {
-    users?: User []
+    users?: User [];
+    loading: boolean;
 }
 
 const successDelete = () => {
@@ -23,12 +25,13 @@ const successDelete = () => {
 
 class AdminUserList extends Component < {}, State>{
     state: State ={
-        users: []
+        users: [],
+        loading: true,
     }
 
     async componentDidMount() {
         const users= await getUsers();
-        this.setState({ users: users });
+        this.setState({ users: users, loading: false });
     }
 
     handleDelete = async (_id: string) => {
@@ -38,6 +41,13 @@ class AdminUserList extends Component < {}, State>{
     }
 
     render () {
+        if (this.state.loading) {
+            return (
+                <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+                    <Spinner />
+                </div>
+            )
+        }
         return (
             <Layout style={{ background: '#fff' }}>
                 <SiderMenu />

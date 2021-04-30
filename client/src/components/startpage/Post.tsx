@@ -2,6 +2,7 @@ import { Component, CSSProperties  } from 'react';
 import { List, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Spinner from '../Spinner';
 
 export interface Post {
   _id: string
@@ -28,7 +29,11 @@ class StartPagePost extends Component <{}, State> {
   
   render() {
     if (this.state.loading) {
-      return <div></div>
+      return (
+          <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+              <Spinner />
+          </div>
+      )
     }
     return(
       <Row style={postContainer}>

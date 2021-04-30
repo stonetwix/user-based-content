@@ -4,6 +4,7 @@ import { Post} from '../startpage/Post';
 import ErrorPage from '../ErrorPage';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
+import Spinner from '../Spinner';
 
 interface State {
     post?: Post;
@@ -25,7 +26,11 @@ class PostDetail extends Component<Props, State> {
 
     render () {
         if (this.state.loading) {
-            return <div></div>
+            return (
+                <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+                    <Spinner />
+                </div>
+            )
         }
         if (!this.state.post) {
             return <ErrorPage />

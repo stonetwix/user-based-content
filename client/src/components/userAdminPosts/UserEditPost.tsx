@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 import { Post } from '../startpage/Post';
 import ErrorPage from '../ErrorPage';
 import SiderMenu from './SiderMenu';
+import Spinner from '../Spinner';
 
 const { Content } = Layout;
 const layout = {
@@ -56,7 +57,11 @@ class EditPost extends Component<Props, State> {
   render() {
     const { post } = this.state;
     if (this.state.loading) {
-      return <div></div>
+      return (
+          <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+              <Spinner />
+          </div>
+      )
     }
     if (!post) {
       return <ErrorPage />
