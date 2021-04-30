@@ -5,6 +5,7 @@ import { PlusCircleOutlined, FormOutlined, DeleteOutlined } from '@ant-design/ic
 import SiderMenu from './SiderMenu';
 import { User } from '../admin/AdminUserList';
 import { UserContext } from '../context';
+import Spinner from '../Spinner';
 
 const { Content } = Layout;
 
@@ -18,7 +19,6 @@ export interface Post {
 }
 
 interface Props extends RouteComponentProps<{ _id: string }> {}
- 
 interface State {
     posts?: Post[];
     user?: User;
@@ -28,6 +28,7 @@ interface State {
 const successDelete = () => {
     message.success('The product has been deleted', 3);
 };
+
 class PostsListUser extends Component <Props, State> {
     context!: ContextType<typeof UserContext>
     static contextType = UserContext;
@@ -51,7 +52,11 @@ class PostsListUser extends Component <Props, State> {
     
     render() {
         if (this.state.loading) {
-            return <div></div>
+            return (
+                <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+                    <Spinner />
+                </div>
+            )
         }
         return (
             <UserContext.Consumer>

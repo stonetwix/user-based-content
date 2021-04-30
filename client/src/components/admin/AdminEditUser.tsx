@@ -4,6 +4,7 @@ import SiderMenu from '../userAdminPosts/SiderMenu';
 import { RouteComponentProps, withRouter } from "react-router-dom";
 import { User } from "./AdminUserList";
 import ErrorPage from '../ErrorPage';
+import Spinner from '../Spinner';
 
 const { Content } = Layout;
 const layout = {
@@ -57,7 +58,11 @@ class AdminEditUser extends Component<Props, State> {
   render() {
     const { user } = this.state;
     if (this.state.loading) {
-      return <div></div>
+      return (
+          <div style={{textAlign: 'center', width: '100%', height: '100%'}}>
+              <Spinner />
+          </div>
+      )
     }
     if (!user) {
       return <ErrorPage />
