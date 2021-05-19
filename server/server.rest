@@ -24,11 +24,11 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3001/api/posts/60a5223cc4e78d5becf91423
+PUT http://localhost:3001/api/posts/60a5148b52a2885b0b377b8f
 Content-Type: application/json
 
 {
-    "title": "Edited Post Smeagollll",
+    "title": "Edited Post",
     "author": "User Name",
     "date": "2021-04-20",
     "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -37,4 +37,4 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3001/api/posts/60a5148b52a2885b0b377b91
+DELETE http://localhost:3001/api/posts/60a5148b52a2885b0b377b8f
