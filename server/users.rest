@@ -1,0 +1,47 @@
+//Users
+GET http://localhost:3001/api/users
+
+###
+
+GET http://localhost:3001/api/users/60a52d887d3972cf50ad1bcf
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{   
+    "username": "New User",
+    "email": "info@hejhej1.com",
+    "password": "123456"
+}
+
+###
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{   
+    "email": "wizard@gandalf.com",
+    "password": "123"
+}
+
+###
+
+PUT http://localhost:3001/api/users/60a52db2d32bad5f7ad52992
+Content-Type: application/json
+
+{
+    "username": "Edited user2",
+    "email": "info@hejhej2.com",
+    "role": "admin",
+    "password": "123"
+}
+
+###
+
+DELETE http://localhost:3001/api/users/60a52db2d32bad5f7ad52992
+
+###
+
+DELETE http://localhost:3001/api/logout

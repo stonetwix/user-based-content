@@ -58,23 +58,46 @@ postsRouter.put('/api/posts/:id',
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array()});
         }
+        let queryRes;
+        const post = req.body;
+        post.author = req.session.username;
         try {
-            const post = await PostModel.findById(req.params.id).updateOne(req.body);
-            res.status(200).json(post);
+            if (req.session.role === 'admin') {
+                queryRes = await PostModel.findById(req.params.id).updateOne(post);
+            } else {
+                queryRes = await PostModel.find({_id: req.params.id, author: req.session.username}).updateOne(post);
+            }    
         } catch (error) {
             res.status(404).json({ error: 'Post not available' });
+        }
+        if (!queryRes.nModified) {
+            res.status(404).json({ error: 'Post not available' });
+        } else {
+            res.status(200).json(await PostModel.findById(req.params.id));
         }
     }
 );
 
-postsRouter.delete('/api/posts/:id', async (req, res) => {
-    try {
-        await PostModel.findById(req.params.id).deleteOne();
-        res.status(204).json({});
-        
-    } catch (error) {
-        res.status(404).json({ error: 'Post not available' });
+postsRouter.delete('/api/posts/:id', 
+    auth.secure,
+    async (req, res) => {
+        let queryRes;
+        try {
+            if (req.session.role === 'admin') {
+                queryRes = await PostModel.findById(req.params.id).deleteOne();
+            } else {
+                queryRes = await PostModel.find({_id: req.params.id, author: req.session.username}).deleteOne();
+            }    
+        } catch (error) {
+            res.status(404).json({ error: 'Post not available' });
+        }
+
+        if (!queryRes.deletedCount) {
+            res.status(404).json({ error: 'Post not available' });
+        } else {
+            res.status(204).json({});
+        }
     }
-});
+);
 
 module.exports = postsRouter;
